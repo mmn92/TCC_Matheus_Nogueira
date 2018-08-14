@@ -1,193 +1,203 @@
 \chapter{Fundamentação Teórica}
 
-\section{Iluminação de LED}
+A sinalização semafórica pode ser feita com uma de duas funções planejadas: a de regulamentar o direito de passagem de fluxos de veículos e pedestres nas vias, ou de advertir os condutores de veículos e pedestres sobre obstáculos ou situações perigosas nas vias. A composição da sinalização semafórica é um conjunto de indicações luminosas, acionadas alternadamente ou intermitentemente, fixado em posições, próximas à via, que as tornem fáceis de identificar e interpretar para condutores e pedestres. 
+%[http://meusite.mackenzie.br/professor_cucci/ManualSemaforos2014.pdf]
 
-\subsection{LED}
+A tabela \ref{tab: focos} mostra as definições de formas e dimensões da sinalização semafórica a ser utilizada, dependendo de sua finalidade.
 
-O \acf{LED} mudou a forma como a humanidade gera luz. Atualmente são usados em inúmeras aplicações indicativas, iluminação, TVs e vários outros usos. O processo de emissão de luz por um material de estado-sólido estimulado por uma fonte de energia elétrica, denominado de eletroluminescência, foi primeiramente observado em 1907 por Henry Joseph Round (1881-1966) \cite{led}, quando investigava o uso de cristais de carbeto de silício (SiC conhecido também como \textit{corborundum}) como "cristais retificadores" responsáveis por demodular sinais modulados em amplitude nos rádios da época. A junção responsável pelo contato destes cristais e alguns metais (junção característica de diodos \textit{Schottky}) vinha sendo testada como possível substituta aos caros e ineficientes tubos de vácuo eletrônicos (ou válvulas termiônicas). Henry observou que alguns pontos do cristais brilhavam ao aplicar-se potenciais, na faixa de 10 a 110 V, com os contatos metálicos.
+\begin{table}[H]
+\centering
+\caption{Definições de formas e dimensões}
+\label{tab: focos}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Semáforos destinados a & Forma do foco & Dimensão da lente (mm) \\ \midrule
+Veículos automotores & Circular & Diâmetro de 200 ou 300 \\
+Bicicletas & Circular & Diâmetro de 200 ou 300 \\
+Faixas reversíveis          &	Quadrada & Lado de 300		  \\
+Advertência & Circular & Diâmetro de 200 ou 300 \\
+Pedestres & Quadrada & Lado de 200 ou 300 \\
+\bottomrule
+\end{tabular}
+\end{table}
+% http://meusite.mackenzie.br/professor_cucci/ManualSemaforos2014.pdf
 
-As primeiras investigações detalhadas sobre eletroluminescência foram feitas pelo inventor russo Oleg Vladimirovich Losev (1903-1942) que publicou seu primeiro artigo aos 20 anos em 1923, ainda sem educação formal, e reportou observar luz verde ao polarizar reversamente um retificador de junção metal-cristal de SiC. Losev também observou corretamente que a razão do fenômeno não tinha relação com incandescência pois ocorria a temperatura ambiente. Mais tarde, em 1933, Losev também estudou o efeito da eletroluminescência em junções semicondutoras "p-n" com destaque para suas observações quanto à relação entre a energia emitida pelo diodo e a energia de "\textit{gap}" do material.
+A maneira mais eficiente de realizar o controle de sinalização semafórica, controlando e temporizando o acendimento alternado das indicações luminosas é dada utilizando circuitos eletrônicos, feitos especificamente para essa finalidade. A esse sistema dá-se o nome de sistema embarcado. 
 
-Eletroluminescência é definida como a emissão de luz por um material semicondutor quando exposto a um campo elétrico. Um junção P-N, quando polarizada diretamente, conduz corrente elétrica pois ocorre um fluxo de elétrons da região de semicondutor tipo N para a região tipo P e consequentemente, um fluxo de "buracos", portadores fictícios de carga positiva, no sentido oposto. Os elétrons e buracos se recombinam e neste processo energia é liberada, pois os primeiros se encontram na camada de condução no semicondutor tipo N e os buracos, na camada de valência do semicondutor tipo P.
+\section{Sistemas embarcados}
 
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics{figuras/led.PNG}
-    \end{center}
-    \caption[Diagrama de funcionamento do LED.]{Diagrama de funcionamento do LED. Acima, o esquema da junção p-n com o estímulo elétrico e abaixo o diagrama de banda de energia do semicondutor.}
-    \label{led}
-\end{figure}
+%\subsection{LED}
 
-%By User:S-kei - File:PnJunction-LED-E.PNG, CC BY-SA 2.5, https://commons.wikimedia.org/w/index.php?curid=14985902 
-
-A recombinação dos pares elétron-buraco libera energia pelo fato dos elétrons passarem para um nível menos energético \cite{rezende}. Uma vasta gama de materiais semicondutores apresenta uma estrutura de bandas de energia chamada de banda de "gap" indireto, e isso significa em resumo que a transição de elétrons entre os níveis energéticos não envolve apenas emissão ou absorção de luz (fótons), envolve também energia vibratória que gera calor (fônons). Alguns outros materiais têm o que se chama de banda de "gap" direta e a emissão de luz no caso desse tipo de material é bem mais eficiente que nos materiais de "gap" indireto. O comprimento de onda dos fótons emitidos está relacionado com energia de "gap" de forma que LEDs de diferentes materiais semicondutores emitem luz de cores distintas desde o infra-vermelho próximo até o ultra-violeta próximo. A famosa equação de \textit{Plank} demonstra a relação
-
-
-    $$  E_g = h.v $$
-    $$  v = \frac{c}{\lambda} $$
-    $$  E_g = \frac{h.c}{\lambda} .$$
-    
-Onde "h" é a constante de \textit{Plank} e "c" é a velocidade da luz. A energia de "gap" e o comprimento de onda são, como visto, inversamente proporcionais e temos que para o extremo vermelho do espectro visível com comprimento de onda de 700nm requer um material com energia de "gap" de 1.77eV enquanto a energia necessária para obter o violeta extremo, em 400nm, é de 3.1eV. Abaixo vemos um quadro com as energias de "gap" e comprimento de onda característicos de alguns materiais semicondutores.
-
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics{figuras/semic.PNG}
-    \end{center}
-    \caption[Quadro de energias de gap e comprimentos de onda.]{Quadro com os principais materiais semicondutores, tipo de banda, energia de gap e comprimento de onda resultante.}
-    \label{semicon}
-\end{figure}
-
-\subsection{Ergonomia da Iluminação}
-
-A ergonomia é o estudo científico das relações homem e máquina no ambiente de trabalho, visando segurança e eficiência na interação entre estes. A norma regulamentadora que trata de ergonomia, a NR 17 \cite{norma}, traz orientações sobre luminosidade no ambiente de trabalho com o objetivo de proteger a saúde física e psicológica do trabalhador. Algumas das orientações da norma regulamentadora:
-
-\begin{labeling}{17.5.3.3}
-    \item[17.5.3] Em todos os locais de trabalho deve haver iluminação adequada, natural ou artificial, geral ou suplementar, apropriada à natureza da atividade.
-    \item[17.5.3.1]  A iluminação geral deve ser uniformemente distribuída e difusa.
-    \item[17.5.3.2] A iluminação geral ou suplementar deve ser projetada e instalada de forma a evitar ofuscamento, reflexos incômodos, sombras e contrastes excessivos.
-    \item[17.5.3.3] Os níveis mínimos de iluminamento a serem observados nos locais de trabalho são os valores de iluminâncias estabelecidos na NBR 5413, norma brasileira registrada no INMETRO.
-\end{labeling}
-
-A NBR ISO/CIE 8995-1 \cite{normabr} substituiu a NBR 5413 e especifica condições de iluminação para ambientes de trabalho internos e visa a eficiência na execução de tarefas visuais com eficiência, conforto e segurança durante todo o tempo de trabalho, seja esta iluminação natural, artificial ou uma combinação de ambas. A fim de atingir esse objetivo vários critérios são levados em conta, entre eles estão: aspectos da cor da luz, cintilação e iluminância.
-
-Esta legislação estabelece os valores de iluminâncias médias mínimas em serviço para iluminação artificial em interiores, onde se realizem atividades de comércio, indústria, ensino, esporte e outras. Estes valores estão condicionados a função do trabalhador e tempo de determinada tarefa. A iluminância é uma grandeza de luminosidade representada pela letra E, sua unidade de medida é o “lux”, para medí-la utiliza-se o luxímetro, e é definida como  "limite da razão do fluxo luminoso recebido pela superfície em torno de um ponto considerado, para a área da superfície quando esta tende para o zero." (NBR 8995-1, 2013).  A iluminância pode impactar em como uma pessoa percebe e realiza uma tarefa visual, de forma que altos valores de iluminância causam desconforto e ofuscamento e baixos valores tornam o ambiente de trabalho sem estímulo e tedioso.
-
-%A cintilação e efeitos estroboscópicos são causado pelo chaveamento frequente ou oscilação da iluminância em função de aspectos elétricos da iluminação e pode provocar distração e efeitos fisiológicos como dores de cabeça. Podem ainda levar a situações de risco pela alteração da percepção de máquinas de rotação sincronizadas com a frequência de oscilação da iluminância. Este efeito é análogo ao de ver, em filmagens, a roda de um carro em movimento que parece estar girando devagar ou estar parada; o mesmo pode acontecer em uma fábrica com uma máquina síncrona iluminada por uma fonte de luz alimentada pela mesma rede elétrica que alimenta a máquina.%
-
-\section{Internet das Coisas}
-
-Ao longo da história, vários pensadores, cientistas e inventores fizeram previsões convergentes para o futuro, previsões de que um dia o mundo teria uma rede interconectada de computadores e sensores. Hoje vemos essas previsões tomarem forma e podemos vislumbrar esse futuro imaginado por grandes mentes do passado. Nikolas Tesla disse certa vez em uma entrevista em 1926: “... o planeta inteiro se tornará um cérebro gigante, o que significa que todas as coisas serão partes reais e harmônicas de um todo… e os instrumentos que nos permitirão realizar isso serão incrivelmente mais simples que os telefones atuais. Qualquer homem será capaz de carregar um seu próprio bolso”. Já o primeiro dispositivo cotidiano a se conectar a internet foi uma torradeira criada por John Romkey em 1990 e que se conectava a um computador pela pilha de protocolos TCP/IP (\acl{TCP} / \acl{IP}) podendo ser ligada ou desligada pela internet.
-
-Tecnologias correlatas a \ac{IoT} vêm sendo adotadas, nos últimos anos, por empresas de todos os portes e abrindo espaço para novos empreendimentos. Não há restrições claras para os limites de aplicações para \ac{IoT}; aliada a outra importante tecnologia que vem sendo extensivamente explorada, a inteligência artificial, a \ac{IoT} consegue prover vantagens como aumento de produtividade, extrema versatilidade na obtenção de dados e redução de despesas. Um exemplo interessante é a aplicação de dispositivos conectados à rede na produção do leite \cite{milk} na qual produtores têm colocado sensores nos calcanhares, pescoço, mamas e intestino das vacas para prever com exatidão os ciclos férteis dos animais, medir a qualidade do leite antes de extraí-lo e monitorar a saúde da vaca.
+Um sistema embarcado pode ser entendido como uma combinação de hardware (placas de circuito impresso, circuitos integrados, componentes eletrônicos) e software (programação carregada em processadores), que é feito para um fim específico e pré-determinado, sendo assim bastante confiável e otimizado, e possibilitando menor custo nos projetos (um sistema feito para funções generalizadas costuma custar mais caro). A interação com o ambiente externo se dá por meio de sensores e atuadores, apresentando uma interface simplificada, dependendo da utilização, como botões de on/off e LEDs de sinalização. 
+%[Michael Barr. Programming Embedded Systems in C and C++. cap1]
 
 \begin{figure}[ht]
     \begin{center}
-    \includegraphics[width=0.7\textwidth]{figuras/iot}
+    \includegraphics{figuras/embedded.PNG}
     \end{center}
-    \caption[Esquema dos elementos da Internet das Coisas.]{Esquema dos elementos da Internet das Coisas.}
-    \label{iot}
+    \caption[]{Visão geral da integração de um sistema embarcado}
+    \label{embarcado}
 \end{figure}
+%[http://www.eletrica.ufpr.br/mehl/te200/aulas/embarcados.pdf]
 
-O mercado de \ac{IoT} pode ser separado em aplicações de consumo, da indústria e de serviços de infraestrutura da própria internet das coisas. O ramo voltado ao consumidor amplo é caracterizado principalmente por aplicações domiciliares como sistemas de segurança conectados e automação residencial, além de dispositivos vestíveis como monitores de sinais biológicos e relógios “inteligentes”. O setor industrial faz uso da internet das coisas em soluções de logística, agropecuária, sensoriamento em geral, planejamento urbano, monitoramento da rede elétrica, e vários outros exemplos. Para possibilitar que todos esse serviços de \ac{IoT} funcionem, há várias plataformas de infraestrutura de rede, sistemas embarcados, plataformas de software e serviços de armazenamento e análise de dados. Gigantes da tecnologia como “\textit{Google}”, “\textit{Microsoft}” e “\textit{Amazon}” têm setores totalmente voltado para \ac{IoT} e serviço de nuvem como o “\textit{Google Cloud}”, o “\textit{Microsoft Azure}” e o “\textit{Amazon Web Services}”.
+O avanço da tecnologia, porém, permitiu a confecção de sistemas cada vez mais elaborados e capazes, fazendo com que os sistemas embarcados se tornem cada vez mais abrangentes, contradizendo a definição de sistema feito para fins específicos. Para utilização de sistemas embarcados em seus projetos, um projetista deve estudar os requisitos de tal projeto, escolher o hardware específico para a realização das tarefas e, por fim, escrever um software otimizado para o circuito montado. %[http://www.eletrica.ufpr.br/mehl/te200/aulas/embarcados.pdf].
 
-\subsection{Redes de Computadores}
+Sistemas embarcados podem ser encontrados em diversos dispositivos do dia a dia, realizando diferentes tipos de controle, e em alguns casos, agindo em conjunto com outros sistemas embarcados, compondo um sistema maior e completo.
+Um sistema embarcado necessita de um núcleo de processamento para realizar as tarefas necessárias, chamado de processador. Além disso, necessita também de circuitos periféricos que permitam que o processador se comunique com o meio externo. Dá-se o nome de microcontrolador, ao conjunto de um processador com tais periféricos, em um único chip.      
+O foco deste trabalho é falar sobre a utilização de microcontroladores como solução para controle de sinalização semafórica. 
 
-A comunhão dos computadores e das comunicações foi uma das principais revoluções tecnológicas modernas dando origem ao campo de redes de computadores com a demanda de organizar a comunicação entre computadores e criar sistemas computacionais para fazer essa comunicação.
+\subsection{Microprocessadores}
 
-Diz-se que uma rede de computadores é definida por dois ou mais computadores que, interligados por um meio físico, são capazes de trocar dados \cite{redes}. O conceito não especifica qual o meio físico que interliga os computadores que pode ser cabos metálicos, fibras óticas, micro-ondas, ondas de infravermelho; mas limita o meio a apenas um tipo, de forma que a “ampla rede mundial” (\textit{World Wide Web}) não é uma rede mas uma “rede de redes” e que a internet não é uma rede, e sim um sistema distribuído que, apesar de ser composto por vários computadores, é um sistema de softwares que opera sobre a rede e que dá a impressão ao usuário de ser um sistema coerente, uma rede não apresenta essa coerência aparente.
+Os processadores são a unidade central de um sistema embarcado que processa dados e instruções, eles realizam as tarefas e controlam o funcionamento dos periféricos, funcionam com um clock, recebem dados binários como entrada, armazenando-os em registradores, e realizam operações com tais dados, enviando o resultado como saída. 
+%[Osborne, Adam (1980). An Introduction to Microcomputers. Volume 1: Basic Concepts (2nd ed.). Berkeley, California: Osborne-McGraw Hill.]
 
-A \textit{World Wide Web} funciona de acordo com o modelo de cliente/servidor no qual um serviço cliente interage na rede por solicitações ao serviço servidor que responde a essas solicitações, podemos dizer também que o servidor provê recursos que os clientes consomem.
-
-\subsection{A tecnologia \ac{WiFi}}
-
-A popularização de computadores pessoais portáteis (notebooks) trouxe consigo a demanda que o acesso à internet se tornasse, também, móvel e assim foram desenvolvidas algumas arquiteturas de rede baseadas em ondas eletromagnéticas. A existência de diversos tipos de conexão sem fio (wireless) evidenciou a necessidade de uma padronização e assim o \ac{IEEE} lançou o padrão “802.11” para redes locais \cite{wifi} com uma série de especificação de controle de acesso ao meio (MAC) e camada física nas frequências de 900 MHz, 2.4, 3.6, 5 e 60 GHz com larguras de banda mais usuais de 20 ou 22 MHz e taxas de 1 até 3500 MB/s. Diversas revisões subsequentes do padrão como “a”, “b”, “g”, “n” especificam frequência, largura de banda, modulação entre outros fatores; a maioria dos dispositivos com internet sem fio é versátil para trabalhar com múltiplos modelos do padrão.
-
-A \acf{WiFi} é uma marca da Wi-Fi Alliance, organização que promove a tecnologia e certifica produtos que obedecem a alguns requisitos de interoperabilidade do padrão \ac{IEEE} 802.11. Inicialmente, a variante do padrão 802.11 adotada pelo WiFi foi o "b" com taxas de transferência de até 11 MB/s, atualmente o padrão "g" vinha sendo usado e o padrão "n" começou a ser suportado desde 2009, com taxas de transferência de até 100 MB/s, todos estes operando na frequência de 2.4 GHz. A grande maioria dos roteadores WiFi comercializados hoje em dia suportam o padrão "802.11 b/g/n" com suporte às frequências de 2.4 e 5 GHz 
-
-\section{\ac{MQTT}}
-
-O \acf{MQTT} é um protocolo baseado em publicações e subscrições (ou assinaturas) de conectividade em rede para M2M (\textit{Machine to machine}) e \ac{IoT} construído sobre a camada subjacente de internet \ac{TCP}/\ac{IP}. Ele foi criado com o intuito de ser leve, simples e de fácil aplicação com o objetivo de conectar sensores em dutos de petróleo a satélites. A primeira versão do protocolo foi apresentada em 1999 por Andy Stanford-Clark da IBM e Arlen Nipper, e no final de 2014 se tornou um padrão aberto OASIS \cite{oasis} com suporte para diversas linguagens de programação.
-
-O MQTT é um protocolo de transporte de mensagens com comunicação assíncrona o que torna possível desacoplar os usuários do sistema no espaço e no tempo, e viabiliza seu uso em situações com redes que não são confiáveis. Não obstante o protocolo apresenta codificação simples e quantidade mínima de dados de cabeçalho (informações além dos dados que se deseja transportar) em seus pacotes, características que implicam em uma alta eficiência de banda.
-
-Como este protocolo funciona com o paradigma de publicações/subscrições para troca de mensagens entre as partes, ou clientes, e para isso ele apresenta um elemento mediador ao qual é dado nome \textit{broker}. Clientes que desejam enviar mensagens devem publicá-las em tópicos e clientes que querem receber mensagens de outros clientes devem subscrever os tópicos. O \textit{broker} tem o papel de conectar os clientes e mediar a troca de mensagens em tópicos. Em um sistema qualquer cliente pode subscrever qualquer tópico e publicar em qualquer tópico.
-
-A estrutura do MQTT permite que os clientes sejam independentes no espaço, isto é, um cliente não precisa saber o endereço (IP ou porta) de outro para enviá-lo alguma mensagem; e torna-os independentes no tempo permitindo que o “ouvinte” não precise estar ativo quando alguma mensagem for enviada a ele.
-
-\subsection{\textit{Broker} e Clientes}
-
-Os elementos de uma rede baseada em MQTT baseada são, comumente, os clientes e um \textit{broker}. O broker funciona como um servidor que recebe as mensagens publicadas, classificadas por tópicos, e as encaminha para os clientes subscritos nos tópicos determinados. Clientes, por sua vez, são qualquer elemento que publique ou receba mensagens por subscrição podendo ser desde um sensor ou um atuador conectado, uma aplicação web que processa os dados, ou ainda um aplicativo móvel com poder de observar o comportamento dos sensores e publicar ações para os atuadores.
-
-\subsection{Publicações e Subscrições}
-
-O paradigma de comunicação por publicações e subscrições (ou simplesmente “\textit{PubSub}”) é um paradigma no qual remetentes, chamados de publicadores, não especificam quais serão os destinatários, chamados de subscritores, das mensagens enviadas; em vez disso as mensagens são classificadas por assuntos, chamados de tópicos, assim um cliente que publica uma mensagem não controla quais clientes a receberam ou, ainda, se será recebida por qualquer cliente. Consequentemente, clientes que subscrevem determinados tópicos não, necessariamente, sabem qual cliente originou determinada mensagem apesar de tópicos estarem comumente atrelados a publicadores, isso significa que comumente um tópico têm mensagens publicadas por um único publicador.
-
-Tópicos são representados por “\textit{strings}” organizadas de forma hierárquica por níveis os quais são separados por barras (“/”) lembrando o padrão URI de endereços. Os tópicos permitem filtrar mensagens por categorias, clientes ou tipo de dados. Isto significa que o sistema de automação de uma casa com vários sensores de temperatura e umidade pode ter alguns de seus tópicos nomeados da seguinte forma:
-
-\begin{center}
-    \texttt{“home/jardim/sensor1/temperatura”}
-    
-    \texttt{“home/jardim/sensor3/umidade”}
-\end{center}
-
-O sistema de tópicos apresenta ainda flexibilidade no que diz respeito ao acesso generalizado a mensagens. Usando o exemplo anterior, caso um cliente deseje subscrever todos os tópicos referentes a temperatura, ele pode usar caracteres “coringa” como “+” ou “\#” da seguinte forma:
-
-\begin{center}
-    \texttt{“home/+/+/temperatura”}
-    
-    \texttt{“home/\#/\#/temperatura”}
-\end{center}
+O primeiro processador disponível no mercado foi o Intel 4004, lançado em 1971, com uma capacidade de processamento de 4 bits, velocidade de clock de 750 KHz,  interface para interagir com memórias RAM, ROM e um canal digital de 4 bits de comunicação de entrada e saída 
+%[http://www.intel4004.com/The_MOS_Silicon_Gate_Technology_and_the_First_Microprocessors.pdf em http://www.intel4004.com/]
 
 \begin{figure}[ht]
     \begin{center}
-    \includegraphics[width=0.7\textwidth]{figuras/mqtt.PNG}
+    \includegraphics{figuras/processor.PNG}
     \end{center}
-    \caption[Ilustração do funcionamento do protocolo MQTT.]{Ilustração do funcionamento do protocolo MQTT com três clientes e o broker trocando mensagens pelo tópico "temperatura".}
-    \label{mqtt}
+    \caption[Sistema embarcado]{Visão geral da integração de um sistema embarcado.}
+    \label{processor}
 \end{figure}
 
-A troca de mensagens funciona da seguinte forma:
+%[http://iris.sel.eesc.usp.br/sel433a/Micros.pdf]
+
+A Figura \ref{processor} Apresenta de modo simplificado a estrutura interna de um microprocessador, onde pode-se notar os registradores, que são armazenadores de dados, e suas duas unidades básicas: a unidade lógica aritmética (ULA), onde ocorrem as operações lógicas e aritméticas, e a unidade de controle (UC), responsável pela execução das instruções %http://iris.sel.eesc.usp.br/sel433a/Micros.pdf
+Os processadores possuem parâmetros que definem o modo e a velocidade de operação dos mesmos, que serão explicados a seguir.
+
+\subsubsection{Capacidade de processamento}
+
+A capacidade de processamento, com a qual um processador consegue trabalhar, representa o número de bits que pode ser processado por instrução, também chamado de palavra. Uma instrução é definida como uma única ação que o processador pode executar por vez %http://iris.sel.eesc.usp.br/sel433a/Micros.pdf 
+Um processador com capacidade de processamento de 4 bits, por exemplo, consegue processar dados de até 4 bits (equivalente a 24, ou 16) por vez. Com o avanço da tecnologia, a capacidade dos processadores foi aumentando drasticamente, sendo encontrados, hoje, nos microcontroladores no mercado, dispositivos com capacidades que variam entre 8, 16 e 32 bits (28 = 256; 216 = 65536; 232 = 4294967296).
+
+\subsubsection{Velocidade de Clock}
+
+Frequência do clock. Quantidade de ciclos por segundo. Além disso, existe a quantidade de instruções por segundo. A velocidade do clock de um processador determina o quão rápido ele consegue realizar as suas instruções. O intel 4004 tinha um clock máximo de 740 kHz, que equivale a 740 mil pulsos por segundo. Os microprocessadores atuais alcançam velocidades acima de 500 Mhz (mais de 650 vezes mais rápidos). 
+
+Além da velocidade de clock, os processadores possuem um parâmetro que determina quantos ciclos desse clock são necessários para que uma instrução seja realizada. O Intel 4004 necessitava de 8 ciclos por instrução, enquanto alguns microprocessadores modernos conseguem realizar 945 MIPS (milhões de instruções por segundos) com um clock de 600 MHz (resultando em mais de 1.5 instruções por ciclo de clock) %[http://ww1.microchip.com/downloads/en/DeviceDoc/60001525A.pdf]
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics{figuras/clock.PNG}
+    \end{center}
+    \caption[Sequencia de instrução]{Processo de execução de instrução do processador.}
+    \label{clock}
+\end{figure}
+
+A Figura \ref{clock} mostra o comportamento do sinal de clock, e as atividades realizadas, durante o mesmo, pelo microprocessador para realizar uma instrução.
+
+\subsubsection{Periféricos}
+
+Mesmo sendo o núcleo computacional do sistema, um microprocessador não seria de grande utilidade, sem a integração com elementos externos, como memórias, para armazenamento de dados, e canais de entrada e saída de dados (chamados de portas I/O). A maneira mais simplificada de integrar os periféricos ao microprocessador, como foi integrado o Intel 4004, é utilizando uma memória RAM, uma memória ROM e um canal de portas I/O (no caso do 4004, era um canal de 4 bits).
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics{figuras/processor_periph.PNG}
+    \end{center}
+    \caption[Periféricos do processador]{Interação do processador com as memórias.}
+    \label{perifericos}
+\end{figure}
+
+%http://iris.sel.eesc.usp.br/sel433a/Micros.pdf
+
+%\begin{labeling}{17.5.3.3}
+%    \item[17.5.3] Em todos os locais de trabalho deve haver iluminação adequada, natural ou artificial, geral ou suplementar, apropriada à natureza da atividade.
+%    \item[17.5.3.1]  A iluminação geral deve ser uniformemente distribuída e difusa.
+%   \item[17.5.3.2] A iluminação geral ou suplementar deve ser projetada e instalada de forma a evitar ofuscamento, reflexos incômodos, sombras e contrastes excessivos.
+%    \item[17.5.3.3] Os níveis mínimos de iluminamento a serem observados nos locais de trabalho são os valores de iluminâncias estabelecidos na NBR 5413, norma brasileira registrada no INMETRO.
+%\end{labeling}
+
+A memória RAM (memória de acesso aleatório) é utilizada pelo microprocessador para armazenar e ler dados. Por se tratar de uma memória volátil, os dados contidos nela são apagados quando é desenergizada.
+Já a memória ROM (memória apenas de leitura) é utilizada para armazenar as instruções a serem executadas pelo microprocessador. Por se tratar de uma memória não volátil, os dados salvos nela não são apagados quando o sistema é desenergizado, garantindo que o programa gravado seja sempre executado ao ligar o microprocessador. Apesar do nome, existem variantes dessa memória que permitem a regravação de dados (EPROM, EEPROM).
+
+Com as memórias, o microprocessador pode executar instruções salvar dados, porém ainda é necessário um canal de comunicação com o meio externo, que é satisfeito com a integração de um canal de comunicação com entrada e saída (I/O) de dados digitais. Nos barramentos I/O, cada entrada, ou saída, representa um bit. 
+
+Com esses periféricos, o microprocessador é capaz de identificar instruções, aceitar e armazenar dados vindo do ambiente externo, processar tais dados e enviar o resultado de volta ao ambiente externo. Outros periféricos podem ser integrados, e são utilizados em microprocessadores modernos. Alguns serão explicados em outras seções desse trabalho.
+
+
+\subsection{Microcontroladores}
+
+Enquanto um microprocessador é feito para realizar tarefas genéricas, ele pode ser integrado com determinados elementos periféricos, para especificar uma finalidade de uso. Quando essa combinação de dispositivos é disposta em um único chip, dá-se o nome de microcontrolador.
+
+Um microcontrolador, de maneira simplificada, é composto de um processador, em conjunto com memórias RAM e ROM e um canal de entrada e saída de dados (interface I/O), tendo outras funcionalidades, dependendo da família de produtos escolhida. Um microcontrolador é um hardware bastante versátil, podendo ser utilizado em várias aplicações que necessitem de soluções inteligentes de baixo custo, que compõe a parte do hardware envolvido no sistema embarcado. Apesar da versatilidade, quando um microcontrolador é escolhido para um projeto, suas funções passam a ser bastante específicas, por conta do circuito eletrônico que é montado em volta dele, e do software que é escrito especificamente para aquela finalidade.
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics{figuras/microprocessador.PNG}
+    \end{center}
+    \caption[Microcontrolador]{Integração do processador com periféricos.}
+    \label{microcontrolador}
+\end{figure}
+%https://elprojects.blogspot.com/2010/06/microcontroller-at89s52-description.html
+
+A Figura \ref{microcontrolador} mostra o esquema de um microcontrolador, com um microprocessador integrado com memórias RAM e ROM, 4 portas de comunicação I/O e outros periféricos.
+
+O mercado de microcontroladores tem suas origens em 1974, com o TMS1000, apresentado como uma “calculadora em um chip”, pela Texas Instruments. Esse dispositivo possuía uma capacidade de processamento de 4 bits, velocidade de clock de 400 KHz e execução de uma instrução a cada 6 ciclos de clock, enquanto dispositivos modernos ultrapassam os 250 MHZ de velocidade e capacidade para realizar 330 milhões de instruções por segundo (1.3 instruções realizadas por ciclo de clock), representando um aumento de mais de 600 vezes na velocidade de processamento.
+
+Além dos periféricos já mencionados, os microcontroladores mais modernos apresentam uma vasta gama de utilidades, como conversores de sinal analógico, portas prontas para a utilização de protocolos de comunicação, módulos bluetooth, USB, wifi. Os periféricos mais relevantes para o escopo do trabalho serão explicados neste capítulo.
+
+\subsubsection{Conversor de sinal analógico}
+
+O armazenamento e processamento de um microcontrolador acontecem com a utilização de dados digitais, compostos de bits, cujos valores só podem ser 0 ou 1. Em determinados projetos, porém, surge a necessidade de realizar a análise de um sinal analógico, como o sinal de um sensor de luminosidade, sensor de temperatura, realizar a leitura de uma lâmpada, são exemplos de sinais analógicos a serem recebidos pelo microcontrolador.
+
+Para essa tarefa existe um periférico, integrado ao microcontrolador, que recebe o sinal analógico, e realiza a conversão para um sinal digital. Esse periférico é chamado de conversor analógico/digital (conversor A/D, ou ADC). A conversão A/D é realizada por meio de comparação entre o valor recebido e um valor de referência, que deve ser aplicado ao microcontrolador. Esse processo possui precisão variável, dependendo da quantidade de bits utilizados pelo dispositivo, onde cada bit representa uma subdivisão do valor de referência. Assim, para um valor de referência de 5 volts, por exemplo, um ADC de 8 bits possui resolução de 20 mV, por meio da equação \ref{eq:teoria_1}, que representa o cálculo da resolução do ADC.
+
+\begin{equation}
+\label{eq:teoria_1}
+R = \frac{V_{ref}}{2^n}
+\end{equation}
+
+O processo oposto também é possível, em que o dispositivo converte um sinal digital em um sinal analógico (conversor digital/analógico, ou DAC), e alguns microcontroladores já possuem essa função integrada. O funcionamento é semelhante ao do ADC, em que é necessária a utilização de uma voltagem de referência Vref, e a resolução do processo é determinada pela quantidade de bits utilizada. Um DAC com 8 bits tem capacidade de geração de sinal de saída com \( 2^8 \), ou \(256\) níveis de tensão distintos. %2^8, 256
+
+\subsubsection{Porta serial}
+
+A porta serial, de um microcontrolador, é um canal de comunicação que utiliza dois de seus pinos para tal. Um pino funciona como receptor de mensagens (RX), enquanto o outro envia as mensagens (TX). A comunicação serial é dada com o envio de 1 bit por vez, com a velocidade determinada pelo baud rate (taxa de envio de bits), que deve ser a mesma entre os dispositivos envolvidos na comunicação.
+
+A comunicação serial pode ser dada de forma síncrona ou assíncrona, que determina a forma de envio e recebimento de bits. Na comunicação síncrona, a mensagem é enviada, juntamente com um clock, e cada bit é transmitido apenas nos momentos positivos ou negativos desse clock (dependendo da configuração da comunicação).
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics{figuras/sincrono.PNG}
+    \end{center}
+    \caption[Comunicação síncrona]{Envio de mensagem na comunicação síncrona.}
+    \label{sincrono}
+\end{figure}
+%http://www.engineering.union.edu/~hodgsond/MER421/Winter%202015/Lectures/MER421Serial.pdf
+
+Já na comunicação assíncrona, cada bit é enviado independentemente, respeitando o baud rate configurado, e recebido nessa mesma velocidade. Por não haver sincronismo no envio de informação, são enviados bits extras, a cada mensagem transmitida, como indicação de início de transmissão, fim de transmissão e, em alguns casos, um bit de paridade, usado para verificar a precisão da mensagem enviada.
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics{figuras/assincrono.PNG}
+    \end{center}
+    \caption[Comunicação assíncrona]{Envio de mensagem na comunicação assíncrona.}
+    \label{assincrono}
+\end{figure}
+%José Wilson Lima Nerys. MICROPROCESSADORES E MICROCONTROLADORES - PARTE 2 MICROCONTROLADOR 8051. 2018. 151 slides. Disponível em http://www.emc.ufg.br/~jwilson/pdf/2_Micro_Parte_2_(8051).pdf
+
+Os microcontroladores modernos possuem capacidade de comunicação serial configurável, através da USART (receptor-transmissor síncrono e assíncrono universal), podendo assim realizar tanto a comunicação síncrona, como a assíncrona.
+
+\subsubsection{Interrupções}
+
+Evento que causa a suspensão temporária das atividades do microcontrolador, para que sejam realizadas rotinas específicas, de acordo com o tipo de interrupção. Após a realização da rotina de interrupção, o microcontrolador retorna ao ponto do programa em que se encontrava antes do evento. O evento causador da interrupção pode ser um fator interno ou externo. %https://docente.ifsc.edu.br/rafael.grebogi/MaterialDidatico/Mecatronica/Microcontroladores/ebook%20-%20microcontrolador%208051-%20detalhado.pdf
+
+Existem diferentes tipos de eventos que podem causar uma interrupção em um microcontrolador, e cabe ao programador definir a ordem de prioridade entre elas:
 \begin{itemize}
-    \item[1 -] O cliente conecta-se ao \textit{broker} por meio de uma conexão TCP/IP e pode assinar (ou subscrever) qualquer tópico de mensagens do \textit{broker}.
-    \item[2 -] O cliente pode publicar mensagens ao enviar o tópico e o conteúdo da mensagem (também chamado de \textit{payload}) ao \textit{broker}.
-    \item[3 -] O broker encaminha as mensagens publicadas aos clientes.
+\item Timer - Os Timers são contadores, de 8 ou 16 bits, que incrementam a contagem de acordo com a frequência do oscilador utilizado, e geram uma interrupção no sistema ao ocorrer overflow na contagem. Os Timers podem ser configurados para contar diferentes tempos, e são normalmente utilizados como temporizadores.
+\item Conversão A/D - Uma das funcionalidades da conversão A/D de microcontroladores, é a possibilidade de configurar uma interrupção do sistema quando a conversão é finalizada.
+\item Comunicação serial - Dois tipos de interrupção podem ser configuradas na comunicação serial, no envio e no recebimento da mensagem. No envio, a interrupção ocorre quando o microcontrolador detecta que o buffer de envio se torna vazio. Já no recebimento, a interrupção ocorre assim que é detectado o recebimento de um byte.
+\item Sinais externos - Além das interrupções apresentadas, é possível, ainda, configurar determinados pinos do microcontrolador para gerarem uma interrupção do sistema, ao receber um sinal.
 \end{itemize}
 
-\subsection{QoS}
+\section{Programação}
 
-Qualidade de serviço (\acl{QoS}) é uma padronização das capacidades de troca de dados em uma rede que determina fatores como a previsibilidade, retardo e a qualidade geral da comunicação; mais especificamente no caso do protocolo MQTT, os níveis de qualidade de serviço (0, 1 e 2) são uma espécie de “acordo” entre o transmissor e o receptor da mensagem quanto a garantia de entrega de uma mensagem, e isso impacta diretamente a previsibilidade da comunicação.
+Para alcançar as funcionalidades desejadas do microcontrolador, é necessário que o projetista desenvolva um programa (software) e carregue-o na memória do microcontrolador. Quando um software é feito para um fim específico, carregado em um circuito com um objetivo claro, dá-se o nome de Firmware. Um firmware é um código escrito com o intuito de ser gravado apenas uma vez no hardware, com raras modificações, normalmente em casos de correções de erros.
 
-Os três níveis de QoS no MQTT são:
-\begin{itemize}
-    \item[0 -] Não há garantia de entrega.
-    \item[1 -] Mensagem é entregue pelo menos uma vez (pode ser mais).
-    \item[2 -] A mensagem é entregue exatamente uma vez.
-\end{itemize}
+Cada família de microcontroladores possui um conjunto de instruções específicas a ser utilizado na sua programação. Essas instruções são escritas em Assembly, que é uma linguagem de programação que possibilita a integração das instruções do microcontrolador com funções legíveis por humanos.
 
-A garantia de entrega dos níveis 1 e 2 é devido a confirmações de recebimento e reenvio em caso de falha. O nível 0 não inclui confirmações de entrega ou reenvios, é comumente chamado de nível de melhor esforço possível ou “\textit{fire and forget}” (atire e esqueça); apesar de ser o nível de pior previsibilidade, apresenta também a menor latência de comunicação.
+Programar em assembly, porém, requer que o programador aprenda um novo conjunto de instruções para cada dispositivo diferente a ser utilizado. Para resolver esse problema, foram criados compiladores que permitem a utilização da linguagem C para a programação de microcontroladores, o que padroniza esse processo e proporciona facilidade no desenvolvimento de projetos com dispositivos distintos.
 
-Ao usar o nível de QoS 1, um cliente que envia uma mensagem ao broker, ou o inverso, contará com a garantia que essa mensagem será entregue pelo menos uma vez, mas pode ser mais de uma vez. Uma mensagem publicada pelo cliente será armazenada por ele até que receba uma confirmação, um “\textit{puback}” (confirmação de publicação), com a mesma identificação da mensagem enviada. Caso não receba a confirmação até determinado tempo (“\textit{ack timeout}”) a mensagem será reenviada com, com informação que está duplicada, periodicamente até o recebimento do “\textit{puback}”.
 
-O nível mais alto de QoS, 2, é o que provê mais previsibilidade e envolve a maior quantidade de troca de informações na troca de uma mensagem. Esse nível apresenta confirmação de recebimento e confirmação de recebimento da confirmação. A maioria de serviços de MQTT baratos ou grátis, para testes e "hobbistas", não dão suporte ao QoS de nível 2.
 
-% \section{Sistemas Embarcados}
-
-% Uma definição sucinta de sistema é um conjunto de processos ou mesmo sistemas conectados que realizam uma ou mais tarefas como um todo. Como o nome sugere um sistema embarcado é um sistema eletrônico que faz parte de um sistema maior com a função de, muitas vezes, controlar, interfacear, observar outros sistemas eletrônicos ou não. É um programa computacional, ou \textit{software}, que é executado por um sistema físico, o \textit{hardware}, de capacidades adequadas ou projetadas para a tarefa a ser executada, diferente de computadores pessoais, de propósito geral, que possuem capacidade de executar uma grande variedade de tarefas à demanda do usuário.
-
-% Os sistemas embarcados são parte de fundamental da maioria dos sistemas eletrônicos usados atualmente por apresentar padronização de comunicação entre estas unidades, facilidade e simplicidade de processamento de sinais e consumo de energia otimizado. Uma característica importante de sistemas embarcados é que existem arquiteturas dos mais variados tipos, que são especificados para executar os mais variados tipos de tarefas: desde arquiteturas que suportam sistemas operacionais complexos para processamento de imagens em tempo real, até arquiteturas simples com poucos transistores e outros componentes que realizam tarefas como ligar uma lâmpada ou contar tempo.
-
-\section{Microcontroladores}
-
-Microcontroladores são sistemas embarcados cuja função é a de controlar o sistema do qual fazem parte. Dentro da classe de sistemas dedicados estão os microcontroladores que são compostos, em geral, por uma unidade central de processamento (CPU), memória não-volátil para dados e instruções, memória volátil de acesso aleatório (RAM), oscilador e periféricos que geram entradas ou recebem saídas do processador como contadores, \textit{timers}, módulos de comunicação seriais e paralelos, conversores analógicos e digitais . Microcontroladores estão presentes em quase todos equipamentos eletrônicos que se possa imaginar: a indústria de eletrônica de consumo e a indústria automobilística fazem uso extensivo de microcontroladores.
-
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics[width=0.4\textwidth]{figuras/micro.JPG}
-    \end{center}
-    \caption[Diagrama de blocos de um microcontrolador.]{Diagrama de blocos de um microcontrolador com o núcleo de processamento e seus diversos periféricos.}
-    \label{micro}
-\end{figure}
-
-\subsection{ESP-8266}
-
-O ESP-8266 \cite{esp} é um \acf{SoC} com capacidade de comunicação \ac{WiFi} padrão 802.11 b/g/n da fabricante chinesa \textit{Espressif}. Conta com uma CPU de 32 bits RISC (\textit{Reduced Instronction Set Computer}), o \textit{Xtensa} LX106 da \textit{Cadence Tensilica} de baixa potência (menos de 1 mW em \textit{standby}), possui \textit{clock} de 80 MHz, uma ROM de \textit{boot} de 64KB, uma RAM de instruções de 64 KB e uma RAM para dados de 96 KB. Possui a pilha TCP/IP já integrada. Sua tensão de alimentação recomendada é de 3.3V.
-
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics[width=0.3\textwidth]{figuras/esp8266.jpg}
-    \end{center}
-    \caption[ESP-8266 em seu encapsulamento QFN.]{Ilustração do circuito integrado ESP-8266 em seu encapsulamento QFN.}
-    \label{esp8266}
-\end{figure}
-
-O ESP8266 possui interfaces "UART", "I2C" (apenas a função de mestre implementada em suas bibliotecas de desenvolvimento de \textit{software} oficiais, mas há implementações para escravo I2C da comunidade), "SPI" (com três pinos de \textit{device enable} além dos outros pinos usuais do protocolo). Possui 16 pinos de uso geral podendo ser configurados com pull-up/down internos, interrupção por nível ou borda em seus pinos de entrada e saída, opção configurável de saída open-drain ou push-pull, ou ainda saída analógica de PWM com resolução de 10 bits em qualquer pino e uma entrada analógica (ADC). Seus pinos possuem proteção contra sobrevoltagem de até 5,8 V e conseguem fornecer até 12 mA de corrente cada um.
-
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics[width=0.3\textwidth]{figuras/esp12.jpg}
-    \end{center}
-    \caption[Kit de desenvolvimento ESP-12.]{Ilustração kit de desenvolvimento ESP-12 baseado no ESP-8266.}
-    \label{esp12}
-\end{figure}
-
-A \textit{Espressif} comercializa diferentes módulos baseados no ESP8266, numerados de 1 até 12, que facilitam o desenvolvimento e a produção de produtos por já integrar circuitos ou chips de antena, sistema de alimentação e outros circuitos com o seu SoC. O ESP-01, por exemplo, possui apenas oito pinos, sendo dois deles "VCC" e "GND", e foi desenvolvido para ser usado como um simples modulo WiFi-serial. O ESP-12F possui os 16 GPIOs disponíveis e uma memória flash externa de 4MB "SPI". Esse módulo é usado na maioria das plataformas de desenvolvimento do ESP-8266, como o “\textit{NodeMCU}” e o “\textit{Wemos D1 Mini}”. Estas plataformas possuem recursos que facilitam o desenvolvimento como interface USB-serial, botão de \textit{reset} e conectores apropriados para \textit{protoboards}.

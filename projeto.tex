@@ -1,215 +1,148 @@
-\chapter{Desenvolvimento do Projeto}
+\chapter{Implementação}
 
-O projeto do sistema de iluminação controlado pela internet foi desenvolvido com o objetivo de apresentar algumas funcionalidades e demonstrar a potencialidade de economia de energia. As funcionalidades propostas foram as de, remotamente, ligar e desligar a iluminação; apresentar dois modos de controle da luminosidade: O modo normal no qual o usuário poderá escolher a intensidade da fita de LED e o modo econômico no qual o sistema levará em conta a iluminação ambiente para manter um nível mínimo, definido pelo usuário, de luminosidade. A demonstração da economia de energia do sistema é baseada na comparação das estimativas do consumo da iluminação com intensidade máxima e do consumo com intensidade controlada automaticamente.
+O conjunto de sistemas embarcados propostos são integrados em um Controlador Semafórico, dispondo um meio de monitorar, controlar e gerenciar os vários aspectos envolvidos no ambiente urbano, em relação ao trânsito. O controlador semafórico é uma solução que envolve diferentes equipamentos, com objetivos específicos cada, que interligados apresentam um meio de ordenar o fluxo veicular e de pedestres em seu entorno.
 
-\section{Montagem}
+Com a utilização de microcontroladores, o planejamento de circuitos eletrônicos e a programação de firmwares dedicados, o controlador semafórico é responsável por realizar o acendimento e monitoramento da sinalização semafórica, sendo suas funções mais relevantes para tal solução: acendimento de grupos focais (lâmpadas de semáforos) veiculares, acendimento de grupos focais para pedestres, detecção de demanda de travessia de pedestres, sinalização de tempo restante de passagem de veículos (display acoplado aos grupos focais, exibindo um contador regressivo).
 
-Os principais componentes e materiais usados no projeto já foram descritos no capítulo 3. O esquema elétrico foi pensado com o objetivo de fazer com que o sistema atendesse às funcionalidades propostas.
+Cada sistema, individualmente, possui um propósito específico, e foi planejado de modo otimizado, para apresentar confiabilidade, fácil funcionamento e custo reduzido. Os microcontroladores utilizados para alcançar os objetivos foram da família PIC e da família AVR, sendo, especificamente, o PIC16F77, PIC12F675 e AT89S8253. Em cada aplicação, diferentes funcionalidades dos microcontroladores foram utilizadas, dependendo das necessidades apresentadas.
 
-% FIGURA NO FRITZING DA PROTOBOARD
 
-A lista completa de materiais usados no projeto:
-
-\begin{table}
-    \centering
-    \caption{Lista de materiais}
-    \label{BOM}
-    \begin{tabular}{ll} 
-        \hline
-        Material                                                       & Quantidade  \\ 
-        \hline
-        \hline
-        Fonte de chaveada 220VAC \textasciitilde{} 12VDC/2A            & 1           \\ 
-        \hline
-        Kit de regulador para \textit{protoboard} baseado no CI LM1117 & 1           \\ 
-        \hline
-        \textit{Wemos~}D1 Mini                                         & 1           \\ 
-        \hline
-        Fita de LED branca 3528 12V 4.8W/m                             & 1           \\ 
-        \hline
-        Sensor de Luminosidade LDR 5mm                                 & 1           \\ 
-        \hline
-        TIP122 Transistor \textit{Darlington} NPN                      & 1           \\ 
-        \hline
-        Resistor $10K\Omega$                                           & 1           \\ 
-        \hline
-        Resistor $220\Omega$                                           & 1           \\ 
-        \hline
-        Conector P4 macho                                              & 1           \\
-        \hline
-    \end{tabular}
-\end{table}
-
-O esquema eletrônico dos componentes é mostrado na Figura X e ilustrado na Figura Y conforme montado na \textit{protoboard}.
-
-FIGURA X ESQUEMATICO
-
-FIGURA Y PROTOBOARD
-
-\section{Programação}
-
-\lstset{
-    frame=tb,
-    language=C++,
-    aboveskip=3mm,
-    belowskip=3mm,
-    showstringspaces=false,
-    columns=flexible,
-    basicstyle={\small\ttfamily},
-    numbers=left,                    
-    numbersep=5pt,                  
-    numberstyle=\tiny\color{gray},
-    keywordstyle=\color{blue},
-    commentstyle=\color{dkgreen},
-    stringstyle=\color{mauve},
-    breaklines=true,
-    breakatwhitespace=true,
-    tabsize=4,
-    captionpos=b
-}
-
-Conforme descrito no capítulo 3, a codificação do microcontrolador foi desenvolvida usando a linguagem "C++" compilado com a extensão do \textit{Arduino} junto com as bibliotecas e compilador oficiais da \textit{Espressif}. O código foi escrito no ambiente \textit{Visual Studio Code} com a ferramenta de sistemas embarcados \textit{PLatformIO}.
-
-\subsection{Cabeçalho}
-
-O cabeçalho do código contém declarações de bibliotecas, variáveis, constantes e macros.
-
-\begin{lstlisting}
-
-/************************** Libraries ***************************/
-#include <Arduino.h>
-#include <ESP8266WiFi.h>
-#include "Adafruit_MQTT.h"
-#include "Adafruit_MQTT_Client.h"
-
-// Includes do Wifi Manager
-#include <DNSServer.h>
-#include <ESP8266WebServer.h>
-#include <WiFiManager.h>         //https://github.com/tzapu/WiFiManager
-
-/********************* WiFi Access Point *************************/
-
-#define WLAN_SSID       "GVT-4238"
-#define WLAN_PASS       "6703003118"
-
-/********************* Adafruit.io Setup *************************/
-
-#define AIO_SERVER      "io.adafruit.com"
-#define AIO_SERVERPORT  1883
-#define AIO_USERNAME    "RafaelMQ"
-#define AIO_KEY         "f6ed222e222c446088110578b7bd0146"
-
-/********************* PIN DEFINITIONS **************************/
-#define USER_LED D1
-
-#define pwm_map_n(x) round(map(x, 0, 100, 0, 1023))
-
-/************** GLOBAL STATE (don't change this!) ***************/
-
-// Create an ESP8266 WiFiClient class to connect to the MQTT server.
-WiFiClient client;
-
-// Setup the MQTT client class by passing in the WiFi client and MQTT server and login details.
-Adafruit_MQTT_Client mqtt(&client, AIO_SERVER, AIO_SERVERPORT, AIO_USERNAME, AIO_USERNAME, AIO_KEY);
-
-/************************ Feeds ********************************/
-
-Adafruit_MQTT_Subscribe timefeed = Adafruit_MQTT_Subscribe(&mqtt, "time/seconds");
-
-// Setup a feed called 'pwmin' for subscribing to changes on the slider
-Adafruit_MQTT_Subscribe pwmin = Adafruit_MQTT_Subscribe(&mqtt, AIO_USERNAME "/feeds/pwmin");
-
-// Setup a feed called 'onoff' for subscribing to changes to the button
-Adafruit_MQTT_Subscribe onoffbutton = Adafruit_MQTT_Subscribe(&mqtt, AIO_USERNAME "/feeds/onoff");
-
-Adafruit_MQTT_Publish pwmout = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/pwmout");
-
-/********************* Variables *****************************/
-int sec;
-int minute;
-int hour;
-
-int timeZone = -3; // utc-3 eastern daylight time (brasilia)
-
-int global_pwm = 100;
-bool led_state = false;
-
-\end{lstlisting}
-
-As definições da seção \textit{"Adafruit.io Setup"} são dados próprios da conta do usuário do serviço da \textit{Adafruit}. As declarações da seção \textit{"Global State"} configuram o sistema na rede MQTT do serviço da \textit{Adafruit}. A seção de \textit{"Feeds"} se baseia nos exemplos da documentação de MQTT da \textit{Adafruit} e declara objetos das classes \textit{Subscribe} e \textit{Publish}. E na seção \textit{"Variables"} temos a declaração das variáveis usadas no código.
-
-\subsection{Função \textit{setup()}}
-
-A função \textit{setup()} é chamada no começo da execução do programa apenas uma vez, por isso é responsável por realizar configurações e preparações para o restante da execução do programa.
-
-\begin{lstlisting}
-void setup() {
-    pinMode(USER_LED, OUTPUT);
-    Serial.begin(115200);
-    delay(10);
-
-    Serial.println("Lampada mqtt");
-
-    // Connect to WiFi access point. 
-    // WiFiManager.
-    // Local intialization. Once its business is done, there is no need to keep it around
-    Serial.println();
-    Serial.print("Connecting ");
-
-    WiFiManager wifiManager;
-    wifiManager.autoConnect("Fita de LED MQTT", "2018");
-
-    Serial.println("WiFi connected");
-    Serial.println("IP address: "); 
-    Serial.println(WiFi.localIP());
-    Serial.printf(" ESP8266 Chip id = \%08X\n", ESP.getChipId());
-    
-    // Setup subscribes callbacks
-    timefeed.setCallback(timecallback);
-    pwmin.setCallback(pwmincallback);
-    onoffbutton.setCallback(onoffcallback);
-
-    // Setup MQTT subscriptions.
-    mqtt.subscribe(&timefeed);
-    mqtt.subscribe(&pwmin);
-    mqtt.subscribe(&onoffbutton);
-}
-\end{lstlisting}
-
-Inicialmente são inicializados a comunicação serial, que não interfere no funcionamento do sistema e é usada apenas para depuração, e os pinos de entrada e saída, com exceção do pino de entrada analógica pois este têm esta função por padrão e sua inicialização pode ser dispensada se for usada para este propósito. Posteriormente, é executada a rotina de conexão com o uso da função da biblioteca \textit{"WiFiManager"} \cite{wifimng} que tenta se conectar a última rede a qual havia se conectado anteriormente, ao checar o campo da memória reservada para guardar informações de \textit{"SSID"} e senha; caso não consiga, a função coloca o ESP-8266 na configuração de "ponto de acesso" WiFi, com o \textit{SSID} e senha definidos pelos argumentos da função "wifiManager.autoConnect", e cria uma página \textit{web}, aberta automaticamente ao se conectar ao "ponto de acesso", que permite informar ao sistema qual a rede deve se conectar e a senha dessa rede. E em seguida as funções de \textit{"callbacks"}, que são chamadas quando ocorre uma publicação nos tópicos subscritos, são atreladas aos objetos de subscrição da classe MQTT. Por fim, faz-se a subscrição nos tópicos
-
-\section{Interfaces de Usuário}
-
-O projeto do sistema de iluminação controlado via internet tem duas interfaces de usuário. A interface principal é um aplicativo móvel para o sistema \textit{Android} e a interface \textit{web} é uma funcionalidade oferecida pelo serviço da \textit{Adafruit}.
-
-\subsection{Aplicativo Móvel}
-
-A interface por aplicação móvel para sistemas \textit{Android} usada é baseada no aplicativo "MQTT \textit{Dash}", disponível, gratuitamente, na loja oficial da \textit{Google} \cite{dash}. O aplicativo permite várias interfaces independentes; ao criar uma interface, o usuário define várias características como nome da interface, endereço do servidor MQTT, o número da porta, nome de usuário, senha, e número de linhas e colunas do \textit{layout} da interface. Pode ser criado um atalho na tela inicial do aparelho da interface. Criada a interface o usuário pode criar elementos, denominados \textit{"widgets"}, que podem ser botões, mostradores, e algumas estruturas que permitem escolher um número arbitrário em um intervalo, ou uma estrutura que permita a escolha de uma dentre múltiplas opções predefinidas. Os \textit{widgets} interagem na rede MQTT ao publicar mensagens escolhidas pelo usuário ou predefinidas no aplicativo, mostrar valores recebidos devido a subscrições, ou ainda apresentar determinados comportamentos dependendo da mensagem recebida ou publicada.
-
-A interface criada para este projeto conta com três \textit{widgets}: Um botão para ligar e desligar a iluminação, uma estrutura para escolher um valor de 0 a 100 correspondente a porcentagem da intensidade da iluminação e uma estrutura que permite alternar entre os modos de funcionamento econômico ou normal. Os \textit{widgets} estão sincronizados com a interface \textit{web} por meio da subscrição nos mesmos tópicos em que publicam, isto significa que seu estado muda automaticamente caso haja publicação nesse mesmo tópico.
+\section{Placa de controle de acendimento semafórico}
 
 \begin{figure}[ht]
     \begin{center}
-    \includegraphics[width=0.4\textwidth]{figuras/appdash.png}
+    \includegraphics[width=0.8\textwidth]{figuras/fluxo_fase.PNG}
     \end{center}
-    \caption[Ilustração do aplicativo móvel.]{Ilustração do aplicativo móvel com cores invertidas para evitar o fundo escuro da imagem.}
-    \label{appdash}
+    \caption[Placa de fase]{Fluxograma de funcionamento do firmware da placa de controle de acendimento.}
+    \label{placa_fase}
 \end{figure}
 
-O botão "ON/OFF" pode ligar e desligar a iluminação ao publicar os valores "0" e "1", respectivamente, no tópico \texttt{"RafaelMQ/feeds/onoff"} e apresenta um visual lúdico; quando se encontra no estado "1" mostra a figura de uma "lâmpada acesa" e quando no estado "0" mostra a figura de uma "lâmpada apagada". 
+A placa de controle de acendimento semafórico tem como função assegurar o funcionamento correto do semáforo, tanto veicular quanto de pedestres, sendo responsável pelo acendimento e monitoramento dos focos, assegurando a sequência correta de cores do semáforo (Verde > Amarelo > Vermelho).
+%[http://meusite.mackenzie.br/professor_cucci/ManualSemaforos2014.pdf]. 
 
-A estrutura que permite arbitrar a intensidade da iluminação, chamado no aplicativo de "\textit{slider}", publica e subscreve no tópico \texttt{"RafaelMQ/feeds/pwmin"} valores inteiros no intervalo de "0" a "100" representando a porcentagem da intensidade máxima. O \textit{widget} "Modo" publica no tópico \texttt{"RafaelMQ/feeds/modo"} e serve para selecionar o modo de funcionamento dentre as opções "Econômico", e "Normal". 
+O microcontrolador utilizado na placa é um PIC16F77, que possui 40 pinos e capacidade de processamento de 8 bits. Um cristal é utilizado, para gerar uma velocidade de clock de 20 MHz, e cada instrução é realizada a cada 200 ns (4 ciclos do clock). Esse dispositivo é utilizado para chavear a tensão da rede elétrica e monitorar o acendimento semafórico, e enviar as informações para a central do controlador semafórico.
 
-\subsection{Interface \textit{Web}}
+O firmware da placa foi escrito especificamente para o dispositivo utilizado realizar as funções desejadas. A FIGURA X apresenta os processos realizados pelo microcontrolador durante o seu funcionamento. A placa aguarda os comandos vindos da central (CPU) do controlador semafórico para executar o acendimento dos focos. Os comandos são recebidos pela porta serial (USART) do PIC16F77, através de comunicação assíncrona.
+
+O acendimento de cada foco é realizado com a utilização de um optoacoplador, em conjunto com um TRIAC. O optoacoplador é um dispositivo que permite o isolamento de dois circuitos, utilizando luz emitida por um LED para acionar a outra parte do circuito, 
+%[Rudolf F. Graf (1999). Modern dictionary of electronics. Newnes. ISBN 0-7506-9866-7.], 
+enquanto o TRIAC é um dispositivo que permite a passagem de corrente nas duas direções, a partir de ativação através de um terceiro pino. 
+%[M.D. Singh, K.B. Khanchandani, Power Electronics, Second Edition, Tata McGraw-Hill, New Delhi, 2007, pages 148-152]. 
+Utilizando esses dois componentes, é possível realizar o controle da tensão da rede elétrica (220 V) utilizando um sinal de 5 V dos pinos de I/O do microcontrolador.
+
+O acendimento de cada foco é dado pelo controle do pino do PIC responsável por cada cor (verde, amarelo, vermelho). Ao executar o comando de acender foco, o pino é colocado em 0 V, ativando assim o optoacoplador, e fazendo passar o neutro, da rede elétrica, para o foco semafórico, resultando em seu acendimento.
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics{figuras/moc_triac.PNG}
+    \end{center}
+    \caption[Acendimento semafórico]{Circuito responsável pelo acendimento semafórico.}
+    \label{moc_triac}
+\end{figure}
+
+O PIC16F77 possui um conversor A/D com precisão de 8 bits, que é utilizado, no projeto, para realizar a leitura do valor da tensão da carga, que é o foco, quando aceso. O sinal passa por um transformador abaixador e uma ponte retificadora, para ser lido pelo pino do PIC, que resulta em um valor de leitura proporcional à potência da carga utilizada. Esse circuito permite ao sistema ter capacidade de monitorar diversos estados das lâmpadas utilizadas no semáforo, sendo eles subtensão, funcionamento esperado, sobretensão e queima.
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.5\textwidth]{figuras/trafo.PNG}
+    \end{center}
+    \caption[Detecção da lâmpada]{Circuito responsável pela leitura do sinal analógico.}
+    \label{trafo}
+\end{figure}
+
+Outra função da placa é o monitoramento de acendimento dos focos, em que o PIC realiza a leitura de cada foco (verde, amarelo, vermelho) de uma fase e armazena os valores lidos. A leitura é realizada no pino de saída de um optoacoplador, o qual é ativado pela presença de fase e neutro (rede elétrica) na sua entrada. A placa possui um circuito separado para cada foco monitorado, cada um ocupando um pino diferente de I/O do PIC.
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.5\textwidth]{figuras/4n33.PNG}
+    \end{center}
+    \caption[Detecção de presença de fase]{Circuito responsável pelo monitoramento de acendimento dos focos.}
+    \label{4n33}
+\end{figure}
+
+Além das funções já mencionadas, o PIC é configurado para habilitar interrupção por timer. O timer é utilizado como contador para o controle das funções temporizadas do sistema. 
+
+\section{Placa de controle de contagem de tempo semafórico}
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics{figuras/cronometro.PNG}
+    \end{center}
+    \caption[Sistema de cronômetro]{Cronômetro marcador de tempo semafórico.}
+    \label{cronometro}
+\end{figure}
+
+A placa de controle de contagem de tempo semafórico tem como finalidade realizar a contagem, e mostrar no display, como mostrado na Figura \ref{cronometro}, do tempo de passagem veicular, enquanto o grupo focal estiver aceso no estado verde.
+
+O microcontrolador utilizado é um AVR AT89S8253, que possui 40 pinos e capacidade de processamento de 8 bits. Um cristal é utilizado, para gerar um clock de 12 MHz, e cada instrução é realizada a cada 12 ciclos do clock. O dispositivo é utilizado para realizar as funções de detectar o acendimento do verde no semáforo, contar, e salvar em memória, o tempo de verde e exibir o tempo em um display de 7 segmentos. O fluxo do firmware utilizado nesse microcontrolador pode ser visualizado na Figura \ref{fluxo_cron}.
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics{figuras/fluxo_cron.PNG}
+    \end{center}
+    \caption[Fluxograma do sistema de cronômetro]{Funcionamento do firmware do sistema de contagem de tempo semafórico.}
+    \label{fluxo_cron}
+\end{figure}
+
+O equipamento de contagem é instalado acoplado ao foco semafórico e é eletricamente conectado em paralelo com a fase verde do semáforo. Como não existe comunicação entre a placa de cronômetro e o controlador semafórico, o início da contagem do tempo é determinado pela detecção de acendimento do semáforo. Ao detectar a presença da rede elétrica, o microcontrolador busca na memória o valor da contagem de tempo de verde e inicia a contagem regressiva. Caso não exista valor salvo na memória, é carregado um valor padrão.
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics{figuras/fluxo_cron2.PNG}
+    \end{center}
+    \caption[Fluxograma do monitoramento do cronômetro]{Fluxo da rotina de monitoramento da fase veicular.}
+    \label{fluxo_cron2}
+\end{figure}
+
+Após iniciar a contagem, o microcontrolador passa a monitorar a fase acesa, de acordo com a rotina demonstrada na FIGURA. O controlador semafórico possui um método para indicar que o tempo de verde está próximo do fim, na forma de um pulso, com duração de 100 ms, durante o qual a alimentação é retirada da placa de contagem. Esse método é importante para assegurar o funcionamento correto do sistema nas determinadas situações:
+
+\begin{itemize}
+\item No ciclo inicial, em que o microcontrolador ainda não possui valor de tempo gravado na memória.
+\item Após mudanças dos planos, quando o tempo de acendimento passar a ser diferente do tempo armazenado na memória.
+\end{itemize}
+
+O pulso é necessário nessas situações, pois são cenários em que ocorre dessincronização entre a placa de contagem e o controlador semafórico, e os displays não exibem o tempo correto. Ao reconhecer o pulso, porém, a placa entra em sincronia com o controlador e exibe o valor correto no mostrador (o pulso indica que faltam 10 s de tempo de verde). Ao apagar o foco verde, o microcontrolador reconhece a ausência de alimentação por mais de 100 ms, e salva na memória o tempo do ciclo de acendimento.
+No equipamento são utilizados dois timers distintos para gerar interrupções. O primeiro é utilizado para a contagem do tempo e atualização da variável que é exibida nos displays. O segundo é utilizado para a contagem dos 100 ms para reconhecimento do pulso do controlador.
+
+\section{Placa de detecção de demanda de atuadores externos}
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics{figuras/fluxo_atdr.PNG}
+    \end{center}
+    \caption[Fluxograma do atuador]{Fluxo do funcionamento de detecção de demanda.}
+    \label{fluxo_atdr}
+\end{figure}
+
+A placa de monitoramento de demanda de atuadores externos tem como finalidade acumular as demandas vindas de atuadores externos, ativados por pedestres para realizar a travessia de vias. A placa recebe um sinal, referente às atuações, do equipamento que realiza o registro das demandas, à medida que vão ocorrendo, e utiliza esse sinal para realizar cálculos referentes à quantidade e volume de demandas registradas.
+
+Assim como a placa de controle de acendimento semafórico, o microcontrolador utilizado nessa placa é um PIC16F77, utilizando, também, um cristal de 20 MHz para gerar o clock. As funções necessárias para essa placa são:
+
+\begin{itemize}
+\item Comunicação com a CPU
+\item Registro de atividades de atuadores externos
+\item Cálculo de quantidade de demanda em um determinado intervalo de tempo
+\item Cálculo de volume de demandas em um determinado intervalo de tempo
+\end{itemize}
+
+O firmware escrito para essa placa segue o fluxo que pode ser visto na Figura \ref{fluxo_atdr}, que apresenta os processos realizados pelo microcontrolador durante seu funcionamento. Para realizar a comunicação com a CPU, é utilizada a porta serial do PIC, através de uma comunicação assíncrona. 
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics{figuras/atuacao.PNG}
+    \end{center}
+    \caption[Circuito de atuador]{Circuito responsável pela detecção de atuação.}
+    \label{atdr}
+\end{figure}
+
+Como pode ser visto na Figura \ref{atdr}, o circuito de monitoramento das demandas possui um optoacoplador, que é ativado quando o equipamento que registra as demandas envia o sinal por meio do pino externo, e o PIC detecta a atuação. Além desses dados, o PIC incrementa uma contagem cada vez que uma demanda é registrada, desse modo armazenando a contagem de atuação para cada detector.
+
+Além da contagem de atuação, outra funcionalidade da placa é o armazenamento do volume das atuações. Para isso, o timer do microcontrolador é utilizado. Durante a rotina de interrupção do timer, o PIC identifica as demandas recebidas e calcula, durante uma janela de tempo (determinada pela CPU), durante que porcentagem desse período as demandas ficaram ativas. Essas informações armazenadas são enviadas para a CPU, por meio da porta serial, quando requisitadas.
+
+\section{Placa de registro de demanda de pedestre}
+
+A interface por aplicação móvel para sistemas 
+
+\section{Integração}
 
 A interface \textit{web} é uma das funcionalidades ofertadas pelo serviço da \textit{Adafruit} e têm \textit{widgets} bem parecidos com os do aplicativo móvel; com uma diferença principal: Há um widget que plota um gráfico temporal dos valores publicados em algum dos tópicos e permite que os dados de qualquer tópico possam ser salvos em um arquivo "csv", formato compatível com os principais editores de planilhas.
-
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics[width=\textwidth]{figuras/adaio.PNG}
-    \end{center}
-    \caption[Ilustração da interface \textit{web}.]{Ilustração da interface \textit{web} com cores invertidas para evitar o fundo escuro da imagem.}
-    \label{adaio}
-\end{figure}
-
-O comportamento e funcionamento dos \textit{widgets} da interface \textit{web} é bastante similar ao dos \textit{widgets} da aplicação móvel com as mesmas estruturas de ligar e desligar, alterar a intensidade da iluminação e selecionar o modo de operação.
