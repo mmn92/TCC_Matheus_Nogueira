@@ -141,8 +141,55 @@ Além da contagem de atuação, outra funcionalidade da placa é o armazenamento
 
 \section{Placa de registro de demanda de pedestre}
 
-A interface por aplicação móvel para sistemas 
+A placa de registro de demanda de pedestre é um sistema de botoeira que registra as demandas realizadas pelo pedestre e envia um sinal para o controlador semafórico como aviso de ativação. O equipamento possui um botão, que deve ser pressionado para que ocorra o registro da demanda. 
 
-\section{Integração}
+O microcontrolador utilizado na placa é um PIC12F675, que possui 8 pinos e capacidade de processamento de 8 bits. É utilizado o oscilador interno do PIC, com velocidade de clock de 4 MHz, e cada instrução é realizada a cada 4 ciclos do clock. Esse dispositivo é utilizado para detectar o pressionamento do botão que realiza a requisição de demanda, enviar um sinal ao controlador para identificar o registro, detectar o acendimento da fase de pedestres e ativar o funcionamento de um buzzer para indicar a travessia, no modo sonoro. 
 
-A interface \textit{web} é uma das funcionalidades ofertadas pelo serviço da \textit{Adafruit} e têm \textit{widgets} bem parecidos com os do aplicativo móvel; com uma diferença principal: Há um widget que plota um gráfico temporal dos valores publicados em algum dos tópicos e permite que os dados de qualquer tópico possam ser salvos em um arquivo "csv", formato compatível com os principais editores de planilhas.
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics{figuras/fluxo_bot.PNG}
+    \end{center}
+    \caption[Fluxograma botoeira]{Rotina principal da placa de registro de demanda de pedestre.}
+    \label{fluxo_bot}
+\end{figure}
+
+O fluxo da rotina principal do firmware utilizado no dispositivo pode ser visto na Figura \ref{fluxo_bot}. O PIC realiza a leitura do botão por meio de polling do pino (leitura do estado do botão a cada ciclo do programa principal). O equipamento possui dois modos de funcionamento, dependendo do pressionamento do botão, sendo eles o modo sonoro, caso o pressionamento ocorra por mais de 3 segundos, e o modo silencioso, no caso de pressionamento por menos de 3 segundos. A reconhecer o pressionamento do botão, a botoeira envia um sinal para o controlador semafórico, para requisitar o acionamento do plano de pedestres. 
+
+Os circuito utilizados, para enviar o sinal de demanda para o controlador, e para ativar o buzzer, são equivalentes, e são representados pelo circuito na Figura \ref{envio_demanda}. Para ocorrer a ativação, um pino do PIC é utilizado para chavear um transistor TBJ, que causa a ativação do relé, fazendo com que o sinal de 12 V seja enviado ao controlador ou ao buzzer. 
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics[width=0.7\textwidth]{figuras/envio_demanda.PNG}
+    \end{center}
+    \caption[Circuito de chaveamento 12V]{Circuito responsável pelo chaveamento da tensão a ser enviada ao controlador ou ao buzzer.}
+    \label{envio_demanda}
+\end{figure}
+
+Após a leitura do estado do botão e envio do sinal de demanda ao controlador, o equipamento realiza o monitoramento do semáforo de pedestres para determinar em qual estado se encontra.
+
+No caso do modo de funcionamento sonoro, ao detectar o acendimento do foco verde, o equipamento ativa o funcionamento intermitente do buzzer, na frequência de 1 Hz, para indicar ao pedestre que a travessia pode ser iniciada. Esse processo pode ser visto na Figura \ref{verde}. 
+
+Ao detectar que o estado do semáforo passou de verde para vermelho intermitente, o equipamento ativa o funcionamento do buzzer, dessa vez na frequência de 2 Hz, para indicar que o tempo de travessia se aproxima do fim. Ao identificar que o foco vermelho ficou aceso continuamente, o equipamento desliga o buzzer. Esse fluxo pode ser visto na Figura \ref{vermelho}.
+
+Para controlar a frequência de ativação do buzzer, é utilizada a interrupção de timer do microcontrolador. A rotina de interrupção de timer é mostrada na Figura \ref{timer}.
+
+\begin{figure}[ht]
+    \begin{center}
+    \includegraphics{figuras/rotina_timer.PNG}
+    \end{center}
+    \caption[Timer da botoeira]{Rotina de interrupção de timer.}
+    \label{timer}
+\end{figure}
+
+Durante o modo de funcionamento silencioso, a botoeira não realiza nenhuma ação, apenas monitora os acendimentos, sem ativar o buzzer.
+
+\begin{figure}[ht]
+    \begin{center}
+    \subfloat[]{\label{verde}
+    \includegraphics[width=0.4\textwidth]{figuras/monit_verde.PNG}}
+    \subfloat[]{\label{vermelho}
+    \includegraphics[width=0.4\textwidth]{figuras/monit_vermelho.PNG}}
+    \end{center}
+    \caption[Fluxos botoeira]{(a)Rotina de monitoramento de acendimento de verde. (b)Rotina de monitoramento de acendimento de vermelho.}
+    \label{fluxos}
+\end{figure}
