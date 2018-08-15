@@ -22,7 +22,7 @@ A placa de controle de acendimento semafórico tem como função assegurar o fun
 
 O microcontrolador utilizado na placa é um PIC16F77, que possui 40 pinos e capacidade de processamento de 8 bits. Um cristal é utilizado, para gerar uma velocidade de clock de 20 MHz, e cada instrução é realizada a cada 200 ns (4 ciclos do clock). Esse dispositivo é utilizado para chavear a tensão da rede elétrica e monitorar o acendimento semafórico, e enviar as informações para a central do controlador semafórico.
 
-O firmware da placa foi escrito especificamente para o dispositivo utilizado realizar as funções desejadas. A FIGURA X apresenta os processos realizados pelo microcontrolador durante o seu funcionamento. A placa aguarda os comandos vindos da central (CPU) do controlador semafórico para executar o acendimento dos focos. Os comandos são recebidos pela porta serial (USART) do PIC16F77, através de comunicação assíncrona.
+O firmware da placa foi escrito especificamente para o dispositivo utilizado realizar as funções desejadas. A Figura \ref{placa_fase} apresenta os processos realizados pelo microcontrolador durante o seu funcionamento. A placa aguarda os comandos vindos da central (CPU) do controlador semafórico para executar o acendimento dos focos. Os comandos são recebidos pela porta serial (USART) do PIC16F77, através de comunicação assíncrona.
 
 O acendimento de cada foco é realizado com a utilização de um optoacoplador, em conjunto com um TRIAC. O optoacoplador é um dispositivo que permite o isolamento de dois circuitos, utilizando luz emitida por um LED para acionar a outra parte do circuito, 
 %[Rudolf F. Graf (1999). Modern dictionary of electronics. Newnes. ISBN 0-7506-9866-7.], 
@@ -94,7 +94,7 @@ O equipamento de contagem é instalado acoplado ao foco semafórico e é eletric
     \label{fluxo_cron2}
 \end{figure}
 
-Após iniciar a contagem, o microcontrolador passa a monitorar a fase acesa, de acordo com a rotina demonstrada na FIGURA. O controlador semafórico possui um método para indicar que o tempo de verde está próximo do fim, na forma de um pulso, com duração de 100 ms, durante o qual a alimentação é retirada da placa de contagem. Esse método é importante para assegurar o funcionamento correto do sistema nas determinadas situações:
+Após iniciar a contagem, o microcontrolador passa a monitorar a fase acesa, de acordo com a rotina demonstrada na Figura \ref{fluxo_cron2}. O controlador semafórico possui um método para indicar que o tempo de verde está próximo do fim, na forma de um pulso, com duração de 100 ms, durante o qual a alimentação é retirada da placa de contagem. Esse método é importante para assegurar o funcionamento correto do sistema nas determinadas situações:
 
 \begin{itemize}
 \item No ciclo inicial, em que o microcontrolador ainda não possui valor de tempo gravado na memória.

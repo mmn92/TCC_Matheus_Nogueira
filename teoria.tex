@@ -26,8 +26,6 @@ A maneira mais eficiente de realizar o controle de sinalização semafórica, co
 
 \section{Sistemas embarcados}
 
-%\subsection{LED}
-
 Um sistema embarcado pode ser entendido como uma combinação de hardware (placas de circuito impresso, circuitos integrados, componentes eletrônicos) e software (programação carregada em processadores), que é feito para um fim específico e pré-determinado, sendo assim bastante confiável e otimizado, e possibilitando menor custo nos projetos (um sistema feito para funções generalizadas costuma custar mais caro). A interação com o ambiente externo se dá por meio de sensores e atuadores, apresentando uma interface simplificada, dependendo da utilização, como botões de on/off e LEDs de sinalização. 
 %[Michael Barr. Programming Embedded Systems in C and C++. cap1]
 
@@ -76,7 +74,7 @@ Um processador com capacidade de processamento de 4 bits, por exemplo, consegue 
 
 Frequência do clock. Quantidade de ciclos por segundo. Além disso, existe a quantidade de instruções por segundo. A velocidade do clock de um processador determina o quão rápido ele consegue realizar as suas instruções. O intel 4004 tinha um clock máximo de 740 kHz, que equivale a 740 mil pulsos por segundo. Os microprocessadores atuais alcançam velocidades acima de 500 Mhz (mais de 650 vezes mais rápidos). 
 
-Além da velocidade de clock, os processadores possuem um parâmetro que determina quantos ciclos desse clock são necessários para que uma instrução seja realizada. O Intel 4004 necessitava de 8 ciclos por instrução, enquanto alguns microprocessadores modernos conseguem realizar 945 MIPS (milhões de instruções por segundos) com um clock de 600 MHz (resultando em mais de 1.5 instruções por ciclo de clock) %[http://ww1.microchip.com/downloads/en/DeviceDoc/60001525A.pdf]
+Além da velocidade de clock, os processadores possuem um parâmetro que determina quantos ciclos desse clock são necessários para que uma instrução seja realizada. O Intel 4004 necessitava de 8 ciclos por instrução, enquanto alguns microprocessadores modernos conseguem realizar 945 MIPS com um clock de 600 MHz (resultando em mais de 1.5 instruções por ciclo de clock) %[http://ww1.microchip.com/downloads/en/DeviceDoc/60001525A.pdf]
 
 \begin{figure}[ht]
     \begin{center}
@@ -149,7 +147,7 @@ Para essa tarefa existe um periférico, integrado ao microcontrolador, que receb
 R = \frac{V_{ref}}{2^n}
 \end{equation}
 
-O processo oposto também é possível, em que o dispositivo converte um sinal digital em um sinal analógico (conversor digital/analógico, ou DAC), e alguns microcontroladores já possuem essa função integrada. O funcionamento é semelhante ao do ADC, em que é necessária a utilização de uma voltagem de referência Vref, e a resolução do processo é determinada pela quantidade de bits utilizada. Um DAC com 8 bits tem capacidade de geração de sinal de saída com \( 2^8 \), ou \(256\) níveis de tensão distintos. %2^8, 256
+O processo oposto também é possível, em que o dispositivo converte um sinal digital em um sinal analógico (conversor digital/analógico, ou DAC), e alguns microcontroladores já possuem essa função integrada. O funcionamento é semelhante ao do ADC, em que é necessária a utilização de uma voltagem de referência Vref, e a resolução do processo é determinada pela quantidade de bits utilizada. Um DAC com 8 bits tem capacidade de geração de sinal de saída com \( 2^8 \), ou \(256\) níveis de tensão distintos.
 
 \subsubsection{Porta serial}
 
@@ -177,7 +175,7 @@ Já na comunicação assíncrona, cada bit é enviado independentemente, respeit
 \end{figure}
 %José Wilson Lima Nerys. MICROPROCESSADORES E MICROCONTROLADORES - PARTE 2 MICROCONTROLADOR 8051. 2018. 151 slides. Disponível em http://www.emc.ufg.br/~jwilson/pdf/2_Micro_Parte_2_(8051).pdf
 
-Os microcontroladores modernos possuem capacidade de comunicação serial configurável, através da USART (receptor-transmissor síncrono e assíncrono universal), podendo assim realizar tanto a comunicação síncrona, como a assíncrona.
+Os microcontroladores modernos possuem capacidade de comunicação serial configurável, através da USART, podendo assim realizar tanto a comunicação síncrona, como a assíncrona.
 
 \subsubsection{Interrupções}
 
