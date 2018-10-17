@@ -1,0 +1,43 @@
+\chapter{Simulação}
+
+Para testar-entender o sistema ou visualizar o sistema em funcionamento.
+Ambiente de simulação para construiur cenários desejados e fazer comparações entre diferentes situações envolvendo o sistema.
+O software utilizado foi o Sumo (Simulation of Urban MObility)
+%[http://www.planalto.gov.br/ccivil_03/LEIS/L9503.htm]
+
+\section{Sumo}
+%"Simulation of Urban MObility" (SUMO) is an open source, highly portable, microscopic road traffic simulation package designed to handle large road networks. It is mainly developed by employees of the Institute of Transportation Systems at the German Aerospace Center. SUMO is licensed under the EPL. 
+%"Simulation of Urban MObility", or "SUMO" for short, is an open source, microscopic, multi-modal traffic simulation. It allows to simulate how a given traffic demand which consists of single vehicles moves through a given road network. The simulation allows to address a large set of traffic management topics. It is purely microscopic: each vehicle is modelled explicitly, has an own route, and moves individually through the network. Simulations are deterministic by default but there are various options for introducing randomness. 
+Escrito em C++.
+
+\subsection{Cenários}
+
+Explicar o que pode ser feito.
+
+\subsection{Configurações}
+
+Explicar os parâmetros possíveis.
+
+\subsection{Aquisição de dados}
+
+Como os dados são coletdos
+
+\subsection{Testes realizados}
+
+O programa foi utilizado para a realização de simulações, envolvendo variados cenários de funcionamento do sistema.
+Em todos os testes, foi simulado um cruzamento simples, com carros sendo gerados a uma mesma taxa, de cada um dos quatro caminhos possíveis.
+
+No primeiro teste, foi realizado uma simulação sem o sistema em funcionamento (cruzamento sem semáforos).
+
+No segundo teste, foi colocado o sistema em funcionamento, utilizando tempo fixo (o tempo de abertura para cada via é pré-fixado).
+
+No terceiro teste, o sistema passou a funcionar de modo adaptativo, contando com um detector, colocado na via, que envia dados em tempo real, para o controle de simulação, sendo assim possível realizar um sistema que se adapte, enquanto o programa está rodando.
+Nesse teste, o controle dos tempos era realizado por demanda (pela quantidade de carros esperando no semáforo fechado).
+Durante esse cenário, se não houver demanda do detector (nenhum carro na via), o semáforo simplesmente não troca de plano.
+
+Quarto teste com detector nos dois sentidos?
+
+Teste com tempos variados (cenarios 3 e 4)
+
+
+
