@@ -49,7 +49,7 @@ O foco deste trabalho é falar sobre a utilização de microcontroladores como s
 Os processadores são a unidade central de um sistema embarcado que processa dados e instruções, eles realizam as tarefas e controlam o funcionamento dos periféricos, funcionam com um \textit{clock}, recebem dados binários como entrada, armazenando-os em registradores, e realizam operações com tais dados, enviando o resultado como saída. 
 %[Osborne, Adam (1980). An Introduction to Microcomputers. Volume 1: Basic Concepts (2nd ed.). Berkeley, California: Osborne-McGraw Hill.]
 
-O primeiro processador disponível no mercado foi o Intel 4004, lançado em 1971, com uma capacidade de processamento de 4 \textit{bits}, velocidade de \textit{clock} de 750 KHz,  interface para interagir com memórias \ac{RAM}, \ac{ROM} e um canal digital de 4 \textit{bits} de comunicação de entrada e saída. 
+%O primeiro processador disponível no mercado foi o Intel 4004, lançado em 1971, com uma capacidade de processamento de 4 \textit{bits}, velocidade de \textit{clock} de 750 KHz,  interface para interagir com memórias \ac{RAM}, \ac{ROM} e um canal digital de 4 \textit{bits} de comunicação de entrada e saída. 
 %[http://www.intel4004.com/The_MOS_Silicon_Gate_Technology_and_the_First_Microprocessors.pdf em http://www.intel4004.com/]
 
 \begin{figure}[ht]
@@ -197,5 +197,29 @@ Cada família de microcontroladores possui um conjunto de instruções específi
 
 Programar em \textit{assembly}, porém, requer que o programador aprenda um novo conjunto de instruções para cada dispositivo diferente a ser utilizado. Para resolver esse problema, foram criados compiladores que permitem a utilização da linguagem C para a programação de microcontroladores, o que padroniza esse processo e proporciona facilidade no desenvolvimento de projetos com dispositivos distintos.
 
+\section{Sistema adaptativo}
+
+%https://www.civil.iitb.ac.in/tvm/nptel/tselnw61.pdf
+%https://sci-hub.tw/https://ieeexplore.ieee.org/document/69966
+%https://sci-hub.tw/https://ieeexplore.ieee.org/document/1622746
+%https://sci-hub.tw/https://www.sciencedirect.com/science/article/pii/S0968090X00000474?via%3Dihub
+%https://civil808.com/sites/default/files/field/files/node_3951-roger_roess_elena_prassas_william_mcshane_trafbookzz.org_.pdf
+
+%ATC systems are intelligent real-time dynamic traffic control systems which are designed to effectively respond to rapid variations in dynamic traffic conditions. It is an advanced process to control the traffic. It is a traffic responsive system that use data from vehicle detectors and optimize traffic signal time in real time. The timing plan of traffic controllers changed automatically. The technique employs digital computers for achieving the desired objective. Area traffic control system can reduce traffic delays, fuel consumption, accident, congestion, travel time, environmental pollution substantially and can increase average flow speed.
+%O SCOOT (Split Cycle Offset Optimization Technique) is an urban traffic control system developed by the Transport Research Laboratory (TRL) in collaboration with the UK traffic systems industry. It is an adaptive system which responds automatically to traffic fluctuations. Prime objective of this is to minimize the sum of the average queues in the area. It is an elastic coordination plan that can be stretched or shrunk to match the latest traffic situation. Continuously measures traffic volumes on all approaches of intersections in the network and changes the signal timings to minimize a Performance Index (PI) which is a composite measure of delay, queue length and stops in the network. Each SCOOT cell is able to control up to 60 junctions. Handling input data up to 256 vehicle counting detectors on street. Detectors are usually positioned 14 m behind the stop line. 
+%SCAT (Sydney Co-ordinated Adaptive Traffic Control) was developed by the Roads and Traffic Authority (RTA) of New South Wales, Australia in the late 1970s. It is automated, real time, traffic responsive signal control strategy. Timing of signals is governed by computer-based control logic. It has ability to modify signal timings on a cycle-by-cycle basis using traffic flow information collected at the intersection approach stop lines. It is not model based but has a library of plans that it selects from and therefore banks extensively on available traffic data.
+
+
+Para lidar com variações temporárias e imprevisíveis do trânsito, é necessária uma abordagem diferente da programação em tempos fixos dos semáforos. Para isso, são utilizados métodos adaptativos de controle de trânsito.
+Os sistemas adaptativos são métodos para monitorar e modificar o comportamento dos semáforos, em tempo real, com o intuito de responder a variações de condições do trânsito. Para alcançar esse objetivo, o controlador semafórico utiliza dados coletados das vias, de detectores veiculares, para otimizar os tempos de abertura dos semáforos.
+O intuito de implementar um sistema adaptativo, em tempo real, é reduzir trânsito, consumo de combustível, acidentes, poluição e tempo de viagem.
+Dois exemplos de sistemas, mundialmente conhecidos, que realizam o controle adaptativo de semáforo, são o SCOOT e o SCAT.
+
+O SCOOT é um sistema de controle de tráfego urbano, desenvolvido pelo \textit{Transport Research Laboratory}(TRL), no Reino Unido. Seu principal objetivo é minimizar os tempos de fila na área atuante, respondendo automaticamente, em tempo real, às variações causadas no trânsito. O sistema aumenta, ou diminui, os tempos de abertura dos semáforos, de acordo com a situação momentânea do trânsito, com o intuito de minimizar o Índice de Performance (\textit{Performance Index}, ou PI), que é uma medida composta pelo atraso do percurso, comprimento de filas de veículos e paradas nas vias. Para conseguir alcançar os objetivos, o sistema conta com detectores veiculares, instalados nas vias, em locais próximos ao cruzamento em que se encontra o semáforo.
+
+%cycle flow profiles medidos em tempo real; continuamente atualizando modelo de filas; otimização incremental de configuração;
+
+O SCAT (\textit{Sydney Co-ordinated Adaptive Traffic Control}) é outro sistema adaptativo de controle de trânsito, desenvolvido pela \textit{Roads and Traffic Authority}(RTA), na Austrália, nos anos 70. Assim como o SCOOT, o SCAT utiliza detectores veiculares, localizados nas vias, para adquirir dados referentes às condições de tráfego e realizar, em tempo real, a alteração dos tempos de abertura dos semáforos.
+A diferença entre os sistemas é que, enquanto o SCOOT utiliza os dados dos detectores para tentar otimizar o fluxo veicular para os ciclos futuros, o SCAT age realizando a correção dos tempos, de acordo com o ciclo anterior.
 
 

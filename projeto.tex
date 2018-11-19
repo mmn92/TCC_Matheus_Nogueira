@@ -4,61 +4,30 @@ O conjunto de sistemas embarcados propostos são integrados em um Controlador Se
 
 Com a utilização de microcontroladores, o planejamento de circuitos eletrônicos e a programação de \textit{firmwares} dedicados, o controlador semafórico é responsável por realizar o acendimento e monitoramento da sinalização semafórica, sendo suas funções mais relevantes para tal solução: acendimento de grupos focais (lâmpadas de semáforos) veiculares, acendimento de grupos focais para pedestres, detecção de demanda de travessia de pedestres, sinalização de tempo restante de passagem de veículos (\textit{display} acoplado aos grupos focais, exibindo um contador regressivo).
 
-Cada sistema, individualmente, possui um propósito específico, e foi planejado de modo otimizado, para apresentar confiabilidade, fácil funcionamento e custo reduzido. Os microcontroladores utilizados para alcançar os objetivos foram da família PIC e da família AVR, sendo, especificamente, o PIC16F77, PIC12F675 e AT89S8253. Em cada aplicação, diferentes funcionalidades dos microcontroladores foram utilizadas, dependendo das necessidades apresentadas.
+Cada sistema, individualmente, possui um propósito específico, e foi planejado de modo otimizado, para apresentar confiabilidade, fácil funcionamento e custo reduzido.
 
+
+\section{Placa de CPU}
+
+A placa de CPU é responsável por determinar o funcionamento das demais placas do controlador. Por meio de um canal de comunicação com as placas de controle de acendimento semafórico e de detecção de demanda de atuadores externos, a CPU envia comandos que regem o comportamento do sistema como um todo.
+
+O controlador pode ser acessado, por meio de uma central, com a qual a placa de CPU se comunica, permitindo assim a modificação de parâmetros do sistema, em tempo real. Desse modo, o controlador semafórico funciona de maneira automatizada, podendo ter suas configurações modificadas por meio de acesso remoto.
+
+É possível, ainda, que o controlador tenha um modo de funcionamento adaptativo, em que os tempos de acendimento não sejam fixos. Nesse modo, o controlador deve realizar leituras em detectores, instalados nas vias, e processar essas informações para definir como o semáforo irá se comportar.
+O processamento dos dados pode ser realizado diretamente pela CPU do controlador, ou pode ser realizado externamente, por um servidor que possui comunicação com o sistema.
 
 \section{Placa de controle de acendimento semafórico}
-
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics[width=0.8\textwidth]{figuras/fluxo_fase.PNG}
-    \end{center}
-    \caption[Placa de fase]{Fluxograma de funcionamento do firmware da placa de controle de acendimento.}
-    \label{placa_fase}
-\end{figure}
 
 A placa de controle de acendimento semafórico tem como função assegurar o funcionamento correto do semáforo, tanto veicular quanto de pedestres, sendo responsável pelo acendimento e monitoramento dos focos, assegurando a sequência correta de cores do semáforo (Verde > Amarelo > Vermelho).
 %[http://meusite.mackenzie.br/professor_cucci/ManualSemaforos2014.pdf]. 
 
 O microcontrolador utilizado na placa é um PIC16F77, que possui 40 pinos e capacidade de processamento de 8 \textit{bits}. Um cristal é utilizado, para gerar uma velocidade de \textit{clock} de 20 MHz, e cada instrução é realizada a cada 200 ns (4 ciclos do \textit{clock}). Esse dispositivo é utilizado para chavear a tensão da rede elétrica e monitorar o acendimento semafórico, e enviar as informações para a central do controlador semafórico.
 
-O \textit{firmware} da placa foi escrito especificamente para o dispositivo utilizado realizar as funções desejadas. A Figura \ref{placa_fase} apresenta os processos realizados pelo microcontrolador durante o seu funcionamento. A placa aguarda os comandos vindos da \ac{CPU} do controlador semafórico para executar o acendimento dos focos. Os comandos são recebidos pela porta serial (\ac{USART}) do PIC16F77, através de comunicação assíncrona.
-
-O acendimento de cada foco é realizado com a utilização de um optoacoplador, em conjunto com um \ac{TRIAC}. O optoacoplador é um dispositivo que permite o isolamento de dois circuitos, utilizando luz emitida por um \ac{LED} para acionar a outra parte do circuito, 
-%[Rudolf F. Graf (1999). Modern dictionary of electronics. Newnes. ISBN 0-7506-9866-7.], 
-enquanto o \ac{TRIAC} é um dispositivo que permite a passagem de corrente nas duas direções, a partir de ativação através de um terceiro pino. 
-%[M.D. Singh, K.B. Khanchandani, Power Electronics, Second Edition, Tata McGraw-Hill, New Delhi, 2007, pages 148-152]. 
-Utilizando esses dois componentes, é possível realizar o controle da tensão da rede elétrica (220 V) utilizando um sinal de 5 V dos pinos de \ac{I/O} do microcontrolador.
-
-O acendimento de cada foco é dado pelo controle do pino do PIC responsável por cada cor (verde, amarelo, vermelho). Ao executar o comando de acender foco, o pino é colocado em 0 V, ativando assim o optoacoplador, e fazendo passar o neutro, da rede elétrica, para o foco semafórico, resultando em seu acendimento.
-
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics{figuras/moc_triac.PNG}
-    \end{center}
-    \caption[Acendimento semafórico]{Circuito responsável pelo acendimento semafórico.}
-    \label{moc_triac}
-\end{figure}
+O \textit{firmware} da placa foi escrito especificamente para o dispositivo utilizado realizar as funções desejadas. A placa aguarda os comandos vindos da \ac{CPU} do controlador semafórico para executar o acendimento dos focos. Os comandos são recebidos pela porta serial (\ac{USART}) do PIC16F77, através de comunicação assíncrona.
 
 O PIC16F77 possui um \ac{ADC} com precisão de 8 \textit{bits}, que é utilizado, no projeto, para realizar a leitura do valor da tensão da carga, que é o foco, quando aceso. O sinal passa por um transformador abaixador e uma ponte retificadora, para ser lido pelo pino do PIC, que resulta em um valor de leitura proporcional à potência da carga utilizada. Esse circuito permite ao sistema ter capacidade de monitorar diversos estados das lâmpadas utilizadas no semáforo, sendo eles subtensão, funcionamento esperado, sobretensão e queima.
 
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics[width=0.5\textwidth]{figuras/trafo.PNG}
-    \end{center}
-    \caption[Detecção da lâmpada]{Circuito responsável pela leitura do sinal analógico.}
-    \label{trafo}
-\end{figure}
-
 Outra função da placa é o monitoramento de acendimento dos focos, em que o PIC realiza a leitura de cada foco (verde, amarelo, vermelho) de uma fase e armazena os valores lidos. A leitura é realizada no pino de saída de um optoacoplador, o qual é ativado pela presença de fase e neutro (rede elétrica) na sua entrada. A placa possui um circuito separado para cada foco monitorado, cada um ocupando um pino diferente de \ac{I/O} do PIC.
-
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics[width=0.5\textwidth]{figuras/4n33.PNG}
-    \end{center}
-    \caption[Detecção de presença de fase]{Circuito responsável pelo monitoramento de acendimento dos focos.}
-    \label{4n33}
-\end{figure}
 
 Além das funções já mencionadas, o PIC é configurado para habilitar interrupção por \textit{timer}. O \textit{timer} é utilizado como contador para o controle das funções temporizadas do sistema. 
 
@@ -74,15 +43,7 @@ Além das funções já mencionadas, o PIC é configurado para habilitar interru
 
 A placa de controle de contagem de tempo semafórico tem como finalidade realizar a contagem, e mostrar no \textit{display}, como mostrado na Figura \ref{cronometro}, do tempo de passagem veicular, enquanto o grupo focal estiver aceso no estado verde.
 
-O microcontrolador utilizado é um AVR AT89S8253, que possui 40 pinos e capacidade de processamento de 8 \textit{bits}. Um cristal é utilizado, para gerar um \textit{clock} de 12 MHz, e cada instrução é realizada a cada 12 ciclos do \textit{clock}. O dispositivo é utilizado para realizar as funções de detectar o acendimento do verde no semáforo, contar, e salvar em memória, o tempo de verde e exibir o tempo em um \textit{display} de 7 segmentos. O fluxo do \textit{firmware} utilizado nesse microcontrolador pode ser visualizado na Figura \ref{fluxo_cron}.
-
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics{figuras/fluxo_cron.PNG}
-    \end{center}
-    \caption[Fluxograma do sistema de cronômetro]{Funcionamento do \textit{firmware} do sistema de contagem de tempo semafórico.}
-    \label{fluxo_cron}
-\end{figure}
+O microcontrolador utilizado é um AVR AT89S8253, que possui 40 pinos e capacidade de processamento de 8 \textit{bits}. Um cristal é utilizado, para gerar um \textit{clock} de 12 MHz, e cada instrução é realizada a cada 12 ciclos do \textit{clock}. O dispositivo é utilizado para realizar as funções de detectar o acendimento do verde no semáforo, contar, e salvar em memória, o tempo de verde e exibir o tempo em um \textit{display} de 7 segmentos.
 
 O equipamento de contagem é instalado acoplado ao foco semafórico e é eletricamente conectado em paralelo com a fase verde do semáforo. Como não existe comunicação entre a placa de cronômetro e o controlador semafórico, o início da contagem do tempo é determinado pela detecção de acendimento do semáforo. Ao detectar a presença da rede elétrica, o microcontrolador busca na memória o valor da contagem de tempo de verde e inicia a contagem regressiva. Caso não exista valor salvo na memória, é carregado um valor padrão.
 
@@ -104,16 +65,6 @@ Após iniciar a contagem, o microcontrolador passa a monitorar a fase acesa, de 
 O pulso é necessário nessas situações, pois são cenários em que ocorre dessincronização entre a placa de contagem e o controlador semafórico, e os \textit{displays} não exibem o tempo correto. Ao reconhecer o pulso, porém, a placa entra em sincronia com o controlador e exibe o valor correto no mostrador (o pulso indica que faltam 10 s de tempo de verde). Ao apagar o foco verde, o microcontrolador reconhece a ausência de alimentação por mais de 100 ms, e salva na memória o tempo do ciclo de acendimento.
 No equipamento são utilizados dois \textit{timers} distintos para gerar interrupções. O primeiro é utilizado para a contagem do tempo e atualização da variável que é exibida nos displays. O segundo é utilizado para a contagem dos 100 ms para reconhecimento do pulso do controlador.
 
-\section{Placa de detecção de demanda de atuadores externos}
-
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics{figuras/fluxo_atdr.PNG}
-    \end{center}
-    \caption[Fluxograma do atuador]{Fluxo do funcionamento de detecção de demanda.}
-    \label{fluxo_atdr}
-\end{figure}
-
 A placa de monitoramento de demanda de atuadores externos tem como finalidade acumular as demandas vindas de atuadores externos, ativados por pedestres para realizar a travessia de vias. A placa recebe um sinal, referente às atuações, do equipamento que realiza o registro das demandas, à medida que vão ocorrendo, e utiliza esse sinal para realizar cálculos referentes à quantidade e volume de demandas registradas.
 
 Assim como a placa de controle de acendimento semafórico, o microcontrolador utilizado nessa placa é um PIC16F77, utilizando, também, um cristal de 20 MHz para gerar o \textit{clock}. As funções necessárias para essa placa são:
@@ -125,17 +76,8 @@ Assim como a placa de controle de acendimento semafórico, o microcontrolador ut
 \item Cálculo de volume de demandas em um determinado intervalo de tempo
 \end{itemize}
 
-O \textit{firmware} escrito para essa placa segue o fluxo que pode ser visto na Figura \ref{fluxo_atdr}, que apresenta os processos realizados pelo microcontrolador durante seu funcionamento. Para realizar a comunicação com a \ac{CPU}, é utilizada a porta serial do PIC, através de uma comunicação assíncrona. 
-
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics{figuras/atuacao.PNG}
-    \end{center}
-    \caption[Circuito de atuador]{Circuito responsável pela detecção de atuação.}
-    \label{atdr}
-\end{figure}
-
-Como pode ser visto na Figura \ref{atdr}, o circuito de monitoramento das demandas possui um optoacoplador, que é ativado quando o equipamento que registra as demandas envia o sinal por meio do pino externo, e o PIC detecta a atuação. Além desses dados, o PIC incrementa uma contagem cada vez que uma demanda é registrada, desse modo armazenando a contagem de atuação para cada detector.
+Para realizar a comunicação com a \ac{CPU}, é utilizada a porta serial do PIC, através de uma comunicação assíncrona. 
+O circuito de monitoramento das demandas possui um optoacoplador, que é ativado quando o equipamento que registra as demandas envia o sinal por meio do pino externo, e o PIC detecta a atuação. Além desses dados, o PIC incrementa uma contagem cada vez que uma demanda é registrada, desse modo armazenando a contagem de atuação para cada detector.
 
 Além da contagem de atuação, outra funcionalidade da placa é o armazenamento do volume das atuações. Para isso, o \textit{timer} do microcontrolador é utilizado. Durante a rotina de interrupção do \textit{timer}, o PIC identifica as demandas recebidas e calcula, durante uma janela de tempo (determinada pela \ac{CPU}), durante que porcentagem desse período as demandas ficaram ativas. Essas informações armazenadas são enviadas para a \ac{CPU}, por meio da porta serial, quando requisitadas.
 
@@ -145,51 +87,62 @@ A placa de registro de demanda de pedestre é um sistema de botoeira que registr
 
 O microcontrolador utilizado na placa é um PIC12F675, que possui 8 pinos e capacidade de processamento de 8 \textit{bits}. É utilizado o oscilador interno do PIC, com velocidade de \textit{clock} de 4 MHz, e cada instrução é realizada a cada 4 ciclos do \textit{clock}. Esse dispositivo é utilizado para detectar o pressionamento do botão que realiza a requisição de demanda, enviar um sinal ao controlador para identificar o registro, detectar o acendimento da fase de pedestres e ativar o funcionamento de um buzzer para indicar a travessia, no modo sonoro. 
 
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics{figuras/fluxo_bot.PNG}
-    \end{center}
-    \caption[Fluxograma botoeira]{Rotina principal da placa de registro de demanda de pedestre.}
-    \label{fluxo_bot}
-\end{figure}
+O PIC realiza a leitura do botão por meio de \textit{polling} do pino (leitura do estado do botão a cada ciclo do programa principal). O equipamento possui dois modos de funcionamento, dependendo do pressionamento do botão, sendo eles o modo sonoro, caso o pressionamento ocorra por mais de 3 segundos, e o modo silencioso, no caso de pressionamento por menos de 3 segundos. A reconhecer o pressionamento do botão, a botoeira envia um sinal para o controlador semafórico, para requisitar o acionamento do plano de pedestres. 
 
-O fluxo da rotina principal do \textit{firmware} utilizado no dispositivo pode ser visto na Figura \ref{fluxo_bot}. O PIC realiza a leitura do botão por meio de \textit{polling} do pino (leitura do estado do botão a cada ciclo do programa principal). O equipamento possui dois modos de funcionamento, dependendo do pressionamento do botão, sendo eles o modo sonoro, caso o pressionamento ocorra por mais de 3 segundos, e o modo silencioso, no caso de pressionamento por menos de 3 segundos. A reconhecer o pressionamento do botão, a botoeira envia um sinal para o controlador semafórico, para requisitar o acionamento do plano de pedestres. 
-
-Os circuito utilizados, para enviar o sinal de demanda para o controlador, e para ativar o \textit{buzzer}, são equivalentes, e são representados pelo circuito na Figura \ref{envio_demanda}. Para ocorrer a ativação, um pino do PIC é utilizado para chavear um transistor \ac{TBJ}, que causa a ativação do relé, fazendo com que o sinal de 12 V seja enviado ao controlador ou ao \textit{buzzer}. 
-
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics[width=0.7\textwidth]{figuras/envio_demanda.PNG}
-    \end{center}
-    \caption[Circuito de chaveamento 12V]{Circuito responsável pelo chaveamento da tensão a ser enviada ao controlador ou ao \textit{buzzer}.}
-    \label{envio_demanda}
-\end{figure}
+Para ocorrer a ativação, um pino do PIC é utilizado para chavear um transistor \ac{TBJ}, que causa a ativação do relé, fazendo com que o sinal de 12 V seja enviado ao controlador ou ao \textit{buzzer}. 
 
 Após a leitura do estado do botão e envio do sinal de demanda ao controlador, o equipamento realiza o monitoramento do semáforo de pedestres para determinar em qual estado se encontra.
+No caso do modo de funcionamento sonoro, ao detectar o acendimento do foco verde, o equipamento ativa o funcionamento intermitente do \textit{buzzer}, na frequência de 1 Hz, para indicar ao pedestre que a travessia pode ser iniciada.
 
-No caso do modo de funcionamento sonoro, ao detectar o acendimento do foco verde, o equipamento ativa o funcionamento intermitente do \textit{buzzer}, na frequência de 1 Hz, para indicar ao pedestre que a travessia pode ser iniciada. Esse processo pode ser visto na Figura \ref{verde}. 
-
-Ao detectar que o estado do semáforo passou de verde para vermelho intermitente, o equipamento ativa o funcionamento do \textit{buzzer}, dessa vez na frequência de 2 Hz, para indicar que o tempo de travessia se aproxima do fim. Ao identificar que o foco vermelho ficou aceso continuamente, o equipamento desliga o \textit{buzzer}. Esse fluxo pode ser visto na Figura \ref{vermelho}.
-
-Para controlar a frequência de ativação do \textit{buzzer}, é utilizada a interrupção de \textit{timer} do microcontrolador. A rotina de interrupção de \textit{timer} é mostrada na Figura \ref{timer}.
-
-\begin{figure}[ht]
-    \begin{center}
-    \includegraphics{figuras/rotina_timer.PNG}
-    \end{center}
-    \caption[Timer da botoeira]{Rotina de interrupção de \textit{timer}.}
-    \label{timer}
-\end{figure}
+Ao detectar que o estado do semáforo passou de verde para vermelho intermitente, o equipamento ativa o funcionamento do \textit{buzzer}, dessa vez na frequência de 2 Hz, para indicar que o tempo de travessia se aproxima do fim. Ao identificar que o foco vermelho ficou aceso continuamente, o equipamento desliga o \textit{buzzer}.
+Para controlar a frequência de ativação do \textit{buzzer}, é utilizada a interrupção de \textit{timer} do microcontrolador.
 
 Durante o modo de funcionamento silencioso, a botoeira não realiza nenhuma ação, apenas monitora os acendimentos, sem ativar o \textit{buzzer}.
 
+\section{Integração}
+%Integração e aplicação (?)
+%A aplicação do sistema é realizar o controle e monitoramento semafórico em vias urbanas, visando trazer organização e segurança ao trânsito. Estar de acordo com as normas técnicas vigentes (resoluções CET). 
+
+Cada equipamento apresentado nesse trabalho desempenha um papel importante no controle e monitoramento da sinalização semafórica nas vias urbanas. Para que todos os processos ocorram de forma ordenada e sincronizada, é necessário que se realize a integração entre os sistemas com o controlador semafórico. 
+%Essa integração pode ser dividida em duas etapas: o controle veicular e o controle de pedestres. Essas duas etapas 
+
+\subsection{Controlador semafórico}
+
+A integração dos sistemas se dá através do equipamento chamado controlador semafórico. O controlador semafórico é um sistema que tem como função a supervisão e o controle do trânsito, sendo composto por \textit{hardware} e \textit{software} capazes de prover uma rede semafórica inteligente e automatizada.
+
 \begin{figure}[ht]
     \begin{center}
-    \subfloat[]{\label{verde}
-    \includegraphics[width=0.4\textwidth]{figuras/monit_verde.PNG}}
-    \subfloat[]{\label{vermelho}
-    \includegraphics[width=0.4\textwidth]{figuras/monit_vermelho.PNG}}
+    \includegraphics[width=0.7\textwidth]{figuras/diagrama_controlador.PNG}
     \end{center}
-    \caption[Fluxos botoeira]{(a)Rotina de monitoramento de acendimento de verde. (b)Rotina de monitoramento de acendimento de vermelho.}
-    \label{fluxos}
+    \caption[Controlador semafórico]{Diagrama da integração do controlador semafórico.}
+    \label{controlador}
 \end{figure}
+
+O controlador pode ser dividido em seus elementos internos e externos, que funcionam em conjunto para assegurar o correto funcionamento do sistema completo. A interação entre os elementos, que compoem o controlador, é mostrada na Figura \ref{controlador}. 
+
+\subsubsection{Elementos internos}
+
+Os elementos internos ao controlador são aqueles que se encontram fisicamente no gabinete do sistema. Esses elementos processam os dados medidos e recebidos dos elementos externos, e possuem comunicação com a \ac{CPU} do controlador.
+
+A placa de controle de acendimento semafórico e a placa de detecção de demanda de atuadores externos são os dois elementos internos ao controlador e funcionam como interface entre a \ac{CPU} do controlador e os elementos externos, que não possuem comunicação.
+A placa de controle de acendimento faz a conexão entre o controlador e os focos semafóricos (veicular e de pedestres) e a placa de contagem de tempo. A placa de detecção de demanda realiza a conexão entre o controlador e a placa de registro de demandas.
+
+\subsubsection{Elementos externos}
+
+Os elementos externos ao controlador são aqueles que não se encontram no gabinete do sistema. Esses elementos ficam à mostra e funcionam como interface entre o motorista e pedestre com o controlador semafórico. Não existem comunicação entre os elementos externos e a \ac{CPU} do controlador, portanto qualquer sinal necessário é transmitido aos elementos internos.
+
+A placa de controle de contagem de tempo semafórico tem como finalidade indicar o tempo de acendimento restante no semáforo veicular, agindo como interface entre o usuário (motorista/pedestre) e os tempos calculados na \ac{CPU}. Já a placa de registro de demanda de pedestres possibilita a interação entre o pedestre e o controlador. Além dos dois sistemas, há ainda o foco semafórico como elemento externo ao controlador, funcionando em integração com a placa de controle de acendimento.
+
+\subsection{Controle veicular}
+
+O controle veicular é realizado pelas placa de controle de acendimento semafórico e placa de controle de contagem de tempo semafórico, assim como os focos semafóricos veiculares. A placa de acendimento é controlada pela \ac{CPU} do controlador semafórico, e é responsável pelo acendimento dos semáforos. A placa de contagem é instalada próxima ao foco semafórico. A ligação entre os elementos pode ser visto na Figura
+%Mostrar esquema com ligação entre placa de acendimento, placa de contagem e foco semafórico veicular
+
+Não há comunicação entre o foco semafórico, ou a placa de contagem, e a \ac{CPU} do controlador, pois a comunicação ocorre apenas entre a placa de acendimento e a \ac{CPU}. A única ligação entre os elementos são as linhas que levam tensão da rede elétrica da placa de acendimento até os outros dois equipamentos. A comunicação necessária se dá por essas linhas, sendo nesse caso o envio de um pulso de energia com o intuito de indicar a aproximação do fim do tempo de acendimento.
+
+\subsection{Controle de pedestres}
+
+O controle de pedestres é realizado pelas placa de detecção de demanda de atuadores externos e placa de registro de demanda de pedestres, assim como os focos semafóricos de pedestres. A placa de detecção é controlada pela \ac{CPU} do controlador semafórico, e é responsável por receber as demandas registradas pela placa de registro. A placa de de registro é instalada próxima ao ponto de travessia de pedestres. A ligação entre os elementos pode ser visto na Figura
+%Mostrar esquema com ligação entre placa de detecção, placa de registro de demanda e foco semafórico de pedestres
+
+Assim como no controle veicular, não há comunicação entre o foco semafórico de pedestres, ou a placa de registro de demandas, e a \ac{CPU} do controlador, apenas entre o controlador e a placa de detecção de demandas. As únicas ligações entre os elementos que realizam o controle de pedestres ocorrem entre o foco semafórico e a placa de registro (ligadas em paralelo na rede elétrica) e entre a placa de registro e a placa de detecção (linha de envio de demandas registradas). 
