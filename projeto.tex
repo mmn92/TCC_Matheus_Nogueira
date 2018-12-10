@@ -18,7 +18,7 @@ O processamento dos dados pode ser realizado diretamente pela CPU do controlador
 
 \section{Placa de controle de acendimento semafórico}
 
-A placa de controle de acendimento semafórico tem como função assegurar o funcionamento correto do semáforo, tanto veicular quanto de pedestres, sendo responsável pelo acendimento e monitoramento dos focos, assegurando a sequência correta de cores do semáforo (Verde > Amarelo > Vermelho).
+A placa de controle de acendimento semafórico tem como função assegurar o funcionamento correto do semáforo, tanto veicular quanto de pedestres, sendo responsável pelo acendimento e monitoramento dos focos, assegurando a sequência correta de cores do semáforo (Verde > Amarelo > Vermelho)\cite{CET}.
 %[http://meusite.mackenzie.br/professor_cucci/ManualSemaforos2014.pdf]. 
 
 O microcontrolador utilizado na placa é um PIC16F77, que possui 40 pinos e capacidade de processamento de 8 \textit{bits}. Um cristal é utilizado, para gerar uma velocidade de \textit{clock} de 20 MHz, e cada instrução é realizada a cada 200 ns (4 ciclos do \textit{clock}). Esse dispositivo é utilizado para chavear a tensão da rede elétrica e monitorar o acendimento semafórico, e enviar as informações para a central do controlador semafórico.
@@ -135,14 +135,12 @@ A placa de controle de contagem de tempo semafórico tem como finalidade indicar
 
 \subsection{Controle veicular}
 
-O controle veicular é realizado pelas placa de controle de acendimento semafórico e placa de controle de contagem de tempo semafórico, assim como os focos semafóricos veiculares. A placa de acendimento é controlada pela \ac{CPU} do controlador semafórico, e é responsável pelo acendimento dos semáforos. A placa de contagem é instalada próxima ao foco semafórico. A ligação entre os elementos pode ser visto na Figura
-%Mostrar esquema com ligação entre placa de acendimento, placa de contagem e foco semafórico veicular
+O controle veicular é realizado pelas placa de controle de acendimento semafórico e placa de controle de contagem de tempo semafórico, assim como os focos semafóricos veiculares. A placa de acendimento é controlada pela \ac{CPU} do controlador semafórico, e é responsável pelo acendimento dos semáforos. A placa de contagem é instalada próxima ao foco semafórico.
 
 Não há comunicação entre o foco semafórico, ou a placa de contagem, e a \ac{CPU} do controlador, pois a comunicação ocorre apenas entre a placa de acendimento e a \ac{CPU}. A única ligação entre os elementos são as linhas que levam tensão da rede elétrica da placa de acendimento até os outros dois equipamentos. A comunicação necessária se dá por essas linhas, sendo nesse caso o envio de um pulso de energia com o intuito de indicar a aproximação do fim do tempo de acendimento.
 
 \subsection{Controle de pedestres}
 
-O controle de pedestres é realizado pelas placa de detecção de demanda de atuadores externos e placa de registro de demanda de pedestres, assim como os focos semafóricos de pedestres. A placa de detecção é controlada pela \ac{CPU} do controlador semafórico, e é responsável por receber as demandas registradas pela placa de registro. A placa de de registro é instalada próxima ao ponto de travessia de pedestres. A ligação entre os elementos pode ser visto na Figura
-%Mostrar esquema com ligação entre placa de detecção, placa de registro de demanda e foco semafórico de pedestres
+O controle de pedestres é realizado pelas placa de detecção de demanda de atuadores externos e placa de registro de demanda de pedestres, assim como os focos semafóricos de pedestres. A placa de detecção é controlada pela \ac{CPU} do controlador semafórico, e é responsável por receber as demandas registradas pela placa de registro. A placa de de registro é instalada próxima ao ponto de travessia de pedestres.
 
 Assim como no controle veicular, não há comunicação entre o foco semafórico de pedestres, ou a placa de registro de demandas, e a \ac{CPU} do controlador, apenas entre o controlador e a placa de detecção de demandas. As únicas ligações entre os elementos que realizam o controle de pedestres ocorrem entre o foco semafórico e a placa de registro (ligadas em paralelo na rede elétrica) e entre a placa de registro e a placa de detecção (linha de envio de demandas registradas). 

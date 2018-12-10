@@ -1,6 +1,6 @@
 \chapter{Fundamentação Teórica}
 
-A sinalização semafórica pode ser feita com uma de duas funções planejadas: a de regulamentar o direito de passagem de fluxos de veículos e pedestres nas vias, ou de advertir os condutores de veículos e pedestres sobre obstáculos ou situações perigosas nas vias. A composição da sinalização semafórica é um conjunto de indicações luminosas, acionadas alternadamente ou intermitentemente, fixado em posições, próximas à via, que as tornem fáceis de identificar e interpretar para condutores e pedestres. 
+A sinalização semafórica pode ser feita com uma de duas funções planejadas: a de regulamentar o direito de passagem de fluxos de veículos e pedestres nas vias, ou de advertir os condutores de veículos e pedestres sobre obstáculos ou situações perigosas nas vias. A composição da sinalização semafórica é um conjunto de indicações luminosas, acionadas alternadamente ou intermitentemente, fixado em posições, próximas à via, que as tornem fáceis de identificar e interpretar para condutores e pedestres\cite{sinalizacao}. 
 %[http://meusite.mackenzie.br/professor_cucci/ManualSemaforos2014.pdf]
 
 A tabela \ref{tab: focos} mostra as definições de formas e dimensões da sinalização semafórica a ser utilizada, dependendo de sua finalidade.
@@ -26,7 +26,7 @@ A maneira mais eficiente de realizar o controle de sinalização semafórica, co
 
 \section{Sistemas embarcados}
 
-Um sistema embarcado pode ser entendido como uma combinação de \textit{hardware} (placas de circuito impresso, circuitos integrados, componentes eletrônicos) e \textit{software} (programação carregada em processadores), que é feito para um fim específico e pré-determinado, sendo assim bastante confiável e otimizado, e possibilitando menor custo nos projetos (um sistema feito para funções generalizadas costuma custar mais caro). A interação com o ambiente externo se dá por meio de sensores e atuadores, apresentando uma interface simplificada, dependendo da utilização, como botões de \textit{on/off} e \ac{LED} de sinalização. 
+Um sistema embarcado pode ser entendido como uma combinação de \textit{hardware} (placas de circuito impresso, circuitos integrados, componentes eletrônicos) e \textit{software} (programação carregada em processadores), que é feito para um fim específico e pré-determinado, sendo assim bastante confiável e otimizado, e possibilitando menor custo nos projetos (um sistema feito para funções generalizadas costuma custar mais caro). A interação com o ambiente externo se dá por meio de sensores e atuadores, apresentando uma interface simplificada, dependendo da utilização, como botões de \textit{on/off} e \ac{LED} de sinalização\cite{book4}. 
 %[Michael Barr. Programming Embedded Systems in C and C++. cap1]
 
 \begin{figure}[ht]
@@ -38,7 +38,7 @@ Um sistema embarcado pode ser entendido como uma combinação de \textit{hardwar
 \end{figure}
 %[http://www.eletrica.ufpr.br/mehl/te200/aulas/embarcados.pdf]
 
-O avanço da tecnologia, porém, permitiu a confecção de sistemas cada vez mais elaborados e capazes, fazendo com que os sistemas embarcados se tornem cada vez mais abrangentes, contradizendo a definição de sistema feito para fins específicos. Para utilização de sistemas embarcados em seus projetos, um projetista deve estudar os requisitos de tal projeto, escolher o \textit{hardware} específico para a realização das tarefas e, por fim, escrever um \textit{software} otimizado para o circuito montado. %[http://www.eletrica.ufpr.br/mehl/te200/aulas/embarcados.pdf].
+O avanço da tecnologia, porém, permitiu a confecção de sistemas cada vez mais elaborados e capazes, fazendo com que os sistemas embarcados se tornem cada vez mais abrangentes, contradizendo a definição de sistema feito para fins específicos. Para utilização de sistemas embarcados em seus projetos, um projetista deve estudar os requisitos de tal projeto, escolher o \textit{hardware} específico para a realização das tarefas e, por fim, escrever um \textit{software} otimizado para o circuito montado\cite{embedded}. %[http://www.eletrica.ufpr.br/mehl/te200/aulas/embarcados.pdf].
 
 Sistemas embarcados podem ser encontrados em diversos dispositivos do dia a dia, realizando diferentes tipos de controle, e em alguns casos, agindo em conjunto com outros sistemas embarcados, compondo um sistema maior e completo.
 Um sistema embarcado necessita de um núcleo de processamento para realizar as tarefas necessárias, chamado de processador. Além disso, necessita também de circuitos periféricos que permitam que o processador se comunique com o meio externo. Dá-se o nome de microcontrolador, ao conjunto de um processador com tais periféricos, em um único \textit{chip}.
@@ -46,11 +46,8 @@ O foco deste trabalho é falar sobre a utilização de microcontroladores como s
 
 \subsection{Microprocessadores}
 
-Os processadores são a unidade central de um sistema embarcado que processa dados e instruções, eles realizam as tarefas e controlam o funcionamento dos periféricos, funcionam com um \textit{clock}, recebem dados binários como entrada, armazenando-os em registradores, e realizam operações com tais dados, enviando o resultado como saída. 
+Os processadores são a unidade central de um sistema embarcado que processa dados e instruções, eles realizam as tarefas e controlam o funcionamento dos periféricos, funcionam com um \textit{clock}, recebem dados binários como entrada, armazenando-os em registradores, e realizam operações com tais dados, enviando o resultado como saída\cite{book3}. 
 %[Osborne, Adam (1980). An Introduction to Microcomputers. Volume 1: Basic Concepts (2nd ed.). Berkeley, California: Osborne-McGraw Hill.]
-
-%O primeiro processador disponível no mercado foi o Intel 4004, lançado em 1971, com uma capacidade de processamento de 4 \textit{bits}, velocidade de \textit{clock} de 750 KHz,  interface para interagir com memórias \ac{RAM}, \ac{ROM} e um canal digital de 4 \textit{bits} de comunicação de entrada e saída. 
-%[http://www.intel4004.com/The_MOS_Silicon_Gate_Technology_and_the_First_Microprocessors.pdf em http://www.intel4004.com/]
 
 \begin{figure}[ht]
     \begin{center}
@@ -74,7 +71,7 @@ Um processador com capacidade de processamento de 4 \textit{bits}, por exemplo, 
 
 Frequência do \textit{clock}. Quantidade de ciclos por segundo. Além disso, existe a quantidade de instruções por segundo. A velocidade do \textit{clock} de um processador determina o quão rápido ele consegue realizar as suas instruções. O intel 4004 possuía um \textit{clock} máximo de 740 kHz, que equivale a 740 mil pulsos por segundo. Os microprocessadores atuais alcançam velocidades acima de 500 Mhz (mais de 650 vezes mais rápidos). 
 
-Além da velocidade de \textit{clock}, os processadores possuem um parâmetro que determina quantos ciclos desse \textit{clock} são necessários para que uma instrução seja realizada. O Intel 4004 necessitava de 8 ciclos por instrução, enquanto alguns microprocessadores modernos conseguem realizar 945 \ac{MIPS} com um \textit{clock} de 600 MHz (resultando em mais de 1.5 instruções por ciclo de \textit{clock}) %[http://ww1.microchip.com/downloads/en/DeviceDoc/60001525A.pdf]
+Além da velocidade de \textit{clock}, os processadores possuem um parâmetro que determina quantos ciclos desse \textit{clock} são necessários para que uma instrução seja realizada. O Intel 4004 necessitava de 8 ciclos por instrução, enquanto alguns microprocessadores modernos conseguem realizar 945 \ac{MIPS} com um \textit{clock} de 600 MHz (resultando em mais de 1.5 instruções por ciclo de \textit{clock})\cite{clock}. %[http://ww1.microchip.com/downloads/en/DeviceDoc/60001525A.pdf]
 
 \begin{figure}[ht]
     \begin{center}
@@ -179,7 +176,7 @@ Os microcontroladores modernos possuem capacidade de comunicação serial config
 
 \subsubsection{Interrupções}
 
-Evento que causa a suspensão temporária das atividades do microcontrolador, para que sejam realizadas rotinas específicas, de acordo com o tipo de interrupção. Após a realização da rotina de interrupção, o microcontrolador retorna ao ponto do programa em que se encontrava antes do evento. O evento causador da interrupção pode ser um fator interno ou externo. %https://docente.ifsc.edu.br/rafael.grebogi/MaterialDidatico/Mecatronica/Microcontroladores/ebook%20-%20microcontrolador%208051-%20detalhado.pdf
+Evento que causa a suspensão temporária das atividades do microcontrolador, para que sejam realizadas rotinas específicas, de acordo com o tipo de interrupção. Após a realização da rotina de interrupção, o microcontrolador retorna ao ponto do programa em que se encontrava antes do evento. O evento causador da interrupção pode ser um fator interno ou externo\cite{8051}. %https://docente.ifsc.edu.br/rafael.grebogi/MaterialDidatico/Mecatronica/Microcontroladores/ebook%20-%20microcontrolador%208051-%20detalhado.pdf
 
 Existem diferentes tipos de eventos que podem causar uma interrupção em um microcontrolador, e cabe ao programador definir a ordem de prioridade entre elas:
 \begin{itemize}
@@ -205,15 +202,13 @@ Programar em \textit{assembly}, porém, requer que o programador aprenda um novo
 %https://sci-hub.tw/https://www.sciencedirect.com/science/article/pii/S0968090X00000474?via%3Dihub
 %https://civil808.com/sites/default/files/field/files/node_3951-roger_roess_elena_prassas_william_mcshane_trafbookzz.org_.pdf
 Para lidar com variações temporárias e imprevisíveis do trânsito, é necessária uma abordagem diferente da programação em tempos fixos dos semáforos. Para isso, são utilizados métodos adaptativos de controle de trânsito.
-Os sistemas adaptativos são métodos para monitorar e modificar o comportamento dos semáforos, em tempo real, com o intuito de responder a variações de condições do trânsito. Para alcançar esse objetivo, o controlador semafórico utiliza dados coletados das vias, de detectores veiculares, para otimizar os tempos de abertura dos semáforos.
+Os sistemas adaptativos são métodos para monitorar e modificar o comportamento dos semáforos, em tempo real, com o intuito de responder a variações de condições do trânsito\cite{adaptive}. Para alcançar esse objetivo, o controlador semafórico utiliza dados coletados das vias, de detectores veiculares, para otimizar os tempos de abertura dos semáforos.
 O intuito de implementar um sistema adaptativo, em tempo real, é reduzir trânsito, consumo de combustível, acidentes, poluição e tempo de viagem.
-Dois exemplos de sistemas, mundialmente conhecidos, que realizam o controle adaptativo de semáforo, são o SCOOT e o SCAT.
+Dois exemplos de sistemas, mundialmente conhecidos, que realizam o controle adaptativo de semáforo, são o SCOOT e o SCAT\cite{areacontrol}.
 
-O SCOOT é um sistema de controle de tráfego urbano, desenvolvido pelo \textit{Transport Research Laboratory}(TRL), no Reino Unido. Seu principal objetivo é minimizar os tempos de fila na área atuante, respondendo automaticamente, em tempo real, às variações causadas no trânsito. O sistema aumenta, ou diminui, os tempos de abertura dos semáforos, de acordo com a situação momentânea do trânsito, com o intuito de minimizar o Índice de Performance (\textit{Performance Index}, ou PI), que é uma medida composta pelo atraso do percurso, comprimento de filas de veículos e paradas nas vias. Para conseguir alcançar os objetivos, o sistema conta com detectores veiculares, instalados nas vias, em locais próximos ao cruzamento em que se encontra o semáforo.
+O SCOOT é um sistema de controle de tráfego urbano, desenvolvido pelo \textit{Transport Research Laboratory}(TRL), no Reino Unido. Seu principal objetivo é minimizar os tempos de fila na área atuante, respondendo automaticamente, em tempo real, às variações causadas no trânsito. O sistema aumenta, ou diminui, os tempos de abertura dos semáforos, de acordo com a situação momentânea do trânsito, com o intuito de minimizar o Índice de Performance (\textit{Performance Index}, ou PI), que é uma medida composta pelo atraso do percurso, comprimento de filas de veículos e paradas nas vias. Para conseguir alcançar os objetivos, o sistema conta com detectores veiculares, instalados nas vias, em locais próximos ao cruzamento em que se encontra o semáforo\cite{scoot}.
 
-%cycle flow profiles medidos em tempo real; continuamente atualizando modelo de filas; otimização incremental de configuração;
-
-O SCAT (\textit{Sydney Co-ordinated Adaptive Traffic Control}) é outro sistema adaptativo de controle de trânsito, desenvolvido pela \textit{Roads and Traffic Authority}(RTA), na Austrália, nos anos 70. Assim como o SCOOT, o SCAT utiliza detectores veiculares, localizados nas vias, para adquirir dados referentes às condições de tráfego e realizar, em tempo real, a alteração dos tempos de abertura dos semáforos.
+O SCAT (\textit{Sydney Co-ordinated Adaptive Traffic Control}) é outro sistema adaptativo de controle de trânsito, desenvolvido pela \textit{Roads and Traffic Authority}(RTA), na Austrália, nos anos 70. Assim como o SCOOT, o SCAT utiliza detectores veiculares, localizados nas vias, para adquirir dados referentes às condições de tráfego e realizar, em tempo real, a alteração dos tempos de abertura dos semáforos\cite{scat}.
 A diferença entre os sistemas é que, enquanto o SCOOT utiliza os dados dos detectores para tentar otimizar o fluxo veicular para os ciclos futuros, o SCAT age realizando a correção dos tempos, de acordo com o ciclo anterior.
 
 

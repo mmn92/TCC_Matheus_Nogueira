@@ -10,12 +10,12 @@ O software utilizado para realizar a simulação foi o SUMO (Simulation of Urban
 %http://www.sumo.dlr.de/pdf/sysmea_v5_n34_2012_4.pdf
 % "Recent Development and Applications of SUMO - Simulation of Urban MObility"; Daniel Krajzewicz, Jakob Erdmann, Michael Behrisch, and Laura Bieker. International Journal On Advances in Systems and Measurements, 5 (3&4):128-138, December 2012.
 SUMO é um pacote de simulação de tráfego, com capacidade de gerar cenários de proporções variadas, de pequenos trechos a cidades inteiras. O projeto foi iniciado em 2001, pelo Institute of Transportation System, no German Aerospace Center, e foi feito público em 2002, mantendo até os dias atuais, a condição de projeto open source.
-O software foi criado com o intuito de prover uma ferramenta para auxiliar pesquisas relacionadas a tráfego urbano de veículos e pedestres. 
+O software foi criado com o intuito de prover uma ferramenta para auxiliar pesquisas relacionadas a tráfego urbano de veículos e pedestres\cite{sumo}. 
   
 \subsection{TraCI}  
 
 TraCI (Traffic Control Interface) é uma ferramenta que permite ao usuário ter acesso às simulações, realizadas pelo SUMO, enquanto elas acontecem. É possível adquirir valores de elementos simulados, como semáforos e detectores.
-Para obter acesso ao SUMO, a ferramenta utiliza uma arquitetura baseada em comunicação TCP entre cliente e servidor, com o SUMO agindo como servidor e o TraCI acessa os dados e envia comandos como o cliente.
+Para obter acesso ao SUMO, a ferramenta utiliza uma arquitetura baseada em comunicação TCP entre cliente e servidor, com o SUMO agindo como servidor e o TraCI acessa os dados e envia comandos como o cliente\cite{sumo}.
 
 Essa ferramenta é utilizada por meio de um módulo, que apresenta funções que podem ser utilizados para adquirir dados e enviar comandos para a simulação. Para esse projeto, o módulo foi utilizado em um script, escrito na linguagem de programação Python, em que os comandos foram utilizados, juntamente com uma lógica para realizar o controle semafórico, para monitorar os semáforos e os detectores veiculares.
 
@@ -53,7 +53,7 @@ Todos os caminhos passam pelo node 0, no centro da simulação, onde se encontra
 \end{figure}
 
 %Car-following krauss model https://elib.dlr.de/115720/1/esm_bieker.pdf
-Além da estrutura da via, a mesma configuração foi utilizada para os veículos que trafegaram pelos quatro caminhos, em todas as simulações. Para gerar os veículos, foram criados quatro fluxos, um para cada caminhos, que emitiam carros com as mesmas propriedades. A emissão de veículos, nesse software, obedece a uma distribuição binomial, onde a cada passo da simulação, existe uma probabilidade de um veículo ser emitido à via. Além disso, o simulador adota o modelo de car-following de Krauss, que rege o comportamento de cada veículo, quando há outros veículos a sua frente.
+Além da estrutura da via, a mesma configuração foi utilizada para os veículos que trafegaram pelos quatro caminhos, em todas as simulações. Para gerar os veículos, foram criados quatro fluxos, um para cada caminhos, que emitiam carros com as mesmas propriedades. A emissão de veículos, nesse software, obedece a uma distribuição binomial, onde a cada passo da simulação, existe uma probabilidade de um veículo ser emitido à via. Além disso, o simulador adota o modelo de car-following de Krauss, que rege o comportamento de cada veículo, quando há outros veículos a sua frente\cite{krauss}.
 
 As configurações utilizadas para a criação do semáforo foi um plano composto de dois estados. No primeiro estado, o semáforo fica verde para os caminhos partindo dos nodes 1 e 3 em direção aos nodes 3 e 1, respectivamente, e fica vermelho para os outros dois caminhos. No segundo estado, os acendimentos se invertem, permitindo a passagem dos caminhos originados nos nodes 2 e 4. Cada estado tem uma duração de trinta segundos, com uma transição de três segundos, para os focos verdes passarem para amarelo e depois vermelho.
 
