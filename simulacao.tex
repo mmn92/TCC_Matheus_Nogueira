@@ -53,7 +53,24 @@ Todos os caminhos passam pelo node 0, no centro da simulação, onde se encontra
 \end{figure}
 
 %Car-following krauss model https://elib.dlr.de/115720/1/esm_bieker.pdf
-Além da estrutura da via, a mesma configuração foi utilizada para os veículos que trafegaram pelos quatro caminhos, em todas as simulações. Para gerar os veículos, foram criados quatro fluxos, um para cada caminhos, que emitiam carros com as mesmas propriedades. A emissão de veículos, nesse software, obedece a uma distribuição binomial, onde a cada passo da simulação, existe uma probabilidade de um veículo ser emitido à via. Além disso, o simulador adota o modelo de car-following de Krauss, que rege o comportamento de cada veículo, quando há outros veículos a sua frente\cite{krauss}.
+Além da estrutura da via, a mesma configuração foi utilizada para os veículos que trafegaram pelos quatro caminhos, em todas as simulações. Para gerar os veículos, foram criados quatro fluxos, um para cada caminhos, que emitiam carros com as mesmas propriedades. A emissão de veículos, nesse software, obedece a uma distribuição binomial, onde a cada passo da simulação, existe uma probabilidade de um veículo ser emitido à via. A distribuição binomial é da forma 
+\begin{equation}
+    \label{eq:prj1}
+    f(k;n,p) = {n\choose k}p^k(1-p)^{n-k}.
+\end{equation}
+Onde k é a quantidade de emissões de carros que ocorrem em n passos da simulação, dada uma probabilidade p de um carro ser emitido a cada segundo. Para minimizar a variação entre as simulações, porém, foi utilizado
+\begin{equation}
+    \label{eq:prj2}
+    p = 1.0
+\end{equation}
+ Ou seja, a cada passo da simulação, um carro será emitido em cada caminho, garantindo a mesma quantidade de carros em todos os cenários.
+ 
+Além disso, o simulador adota o modelo de \textit{car-following} de Krauss, que rege o comportamento de cada veículo, quando há outros veículos a sua frente\cite{krauss}. Esse modelo descreve o comportamento dos veículos de acordo com a equação
+\begin{equation}
+    \label{eq:prj3}
+    v_{safe}(t) = v_l(t) + \frac{g(t) - v_l(t)\tau}{\frac{v}{b(v)} + \tau}.
+\end{equation}
+Onde $t$ é o tempo de simulação, $v_{safe}(t)$ representa a velocidade de segurança, a qual o veículo não ultrapassará, $v_l(t)$ é a velocidade do veículo liderando o caminho, $g(t)$ é o espaço entre o veículo e o veículo a sua frente, $\tau$ representa o tempo de reação do motorista (configurado para 1 segundo) e $b$ é uma função que rege a desaceleração do veículo. 
 
 As configurações utilizadas para a criação do semáforo foi um plano composto de dois estados. No primeiro estado, o semáforo fica verde para os caminhos partindo dos nodes 1 e 3 em direção aos nodes 3 e 1, respectivamente, e fica vermelho para os outros dois caminhos. No segundo estado, os acendimentos se invertem, permitindo a passagem dos caminhos originados nos nodes 2 e 4. Cada estado tem uma duração de trinta segundos, com uma transição de três segundos, para os focos verdes passarem para amarelo e depois vermelho.
 

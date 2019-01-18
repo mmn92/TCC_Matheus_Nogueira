@@ -77,19 +77,19 @@ Os gráficos das Figuras \ref{tripNoTL} a \ref{tripTwoLoop} apresentam os dados 
 Os gráficos gerados confirmam a análise feita com os dados da tabela. É possível observar, no primeiro cenário (simulação sem o sistema), que os gráficos apresentam um comportamento bastante diferente, quando comparados com os outros cenários, devido à falta de organização apresentada no trânsito sem controlador semafórico presente. Pode-se observar que, nos caminhos 1 e 3, a duração da viagem alcançou um valor máximo de 1400 segundos, enquanto os outros caminhos apresentaram um valor máximo de apenas 70 segundos. Esse comportamento representa que os caminhos 2 e 4 "dominaram" o cruzamento, dificultando a passagem dos veículos nos caminhos 1 e 3.
 
 Já nos gráficos das Figuras \ref{tripWithTL}, \ref{tripOneLoop} e \ref{tripTwoLoop}, é possível observar um padrão no comportamento em todos os caminhos. Esse padrão representa o período de abertura de cada semáforo, onde os picos representam os carros que tiveram que esperar o tempo completo de um sinal vermelho, enquanto os vales representam os carros que não precisaram parar em momento algum.
-Os valores máximos e mínimos de cada cenário, em cada simulação, podem ser visualizados na Tabela \ref{tab: durationMinMax}.
+Os valores máximos de cada cenário, em cada simulação, podem ser visualizados na Tabela \ref{tab: durationMax}.
 
 \begin{table}[H]
 \centering
-\caption{Valores máximos e mínimos da duração da viagem, em segundos}
-\label{tab: durationMinMax}
+\caption{Valores máximos da duração da viagem, em segundos}
+\label{tab: durationMax}
 \begin{tabular}{@{}lllll@{}}
 \toprule
 Cenário & Caminho 1 & Caminho 2 & Caminho 3 & Caminho 4 \\ \midrule
-1 & 1400 / 70 & 70 / 45 & 1400 / 70 & 70 / 45 \\
-2 & 80 / 40 & 90 / 40 & 80 / 40 & 90 / 40 \\
-3 &	80 / 40 & 85 / 40 & 80 / 40 & 85 / 40 \\
-4 & 80 / 40 & 90 / 40 & 80 / 40 & 90 / 40 \\
+1 & 1400 & 69 & 1400 & 72 \\
+2 & 85 & 91 & 85 & 91 \\
+3 &	82 & 86 & 82 & 86 \\
+4 & 84 & 89 & 84 & 89 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -122,7 +122,7 @@ Esses dados são calculados pela simulação, e disponibilizados nos arquivos de
 
 \begin{figure}[H]
     \begin{center}
-    \includegraphics[width=0.8\textwidth]{figuras/Queue_Duration_No_TrafficLight.PNG}
+    \includegraphics[width=1.0\textwidth]{figuras/Queue_Duration_No_TrafficLight.PNG}
     \end{center}
     \caption[Duração das filas, cenário 1]{Simulação sem o sistema.}
     \label{queueNoTL}
@@ -130,7 +130,7 @@ Esses dados são calculados pela simulação, e disponibilizados nos arquivos de
 
 \begin{figure}[H]
     \begin{center}
-    \includegraphics[width=0.8\textwidth]{figuras/Queue_Duration_With_TrafficLight.PNG}
+    \includegraphics[width=1.0\textwidth]{figuras/Queue_Duration_With_TrafficLight.PNG}
     \end{center}
     \caption[Duração das filas, cenário 2]{Simulação com o sistema funcionando com tempos fixos.}
     \label{queueWithTL}
@@ -138,7 +138,7 @@ Esses dados são calculados pela simulação, e disponibilizados nos arquivos de
 
 \begin{figure}[H]
     \begin{center}
-    \includegraphics[width=0.8\textwidth]{figuras/Queue_Duration_With_One_Loop.PNG}
+    \includegraphics[width=1.0\textwidth]{figuras/Queue_Duration_With_One_Loop.PNG}
     \end{center}
     \caption[Duração das filas, cenário 3]{Simulação com o sistema adaptativo com um laço.}
     \label{queueOneLoop}
@@ -146,7 +146,7 @@ Esses dados são calculados pela simulação, e disponibilizados nos arquivos de
 
 \begin{figure}[H]
     \begin{center}
-    \includegraphics[width=0.8\textwidth]{figuras/Queue_Duration_With_Two_Loop.PNG}
+    \includegraphics[width=1.0\textwidth]{figuras/Queue_Duration_With_Two_Loop.PNG}
     \end{center}
     \caption[Duração das filas, cenário 4]{Simulação com o sistema adaptativo com dois laços.}
     \label{queueTwoLoop}
@@ -154,19 +154,19 @@ Esses dados são calculados pela simulação, e disponibilizados nos arquivos de
 
 O comportamento dos gráficos gerados apresentam uma coerência com os valores observados na Tabela \ref{tab: queue}. No primeiro cenário, os gráficos apresentam um comportamento bastante diferente dos apresentados nos outros cenários, por conta da falta de organização dos fluxos veiculares. Por conta da falta de um elemento que organize o trânsito, os gráficos apresentam um comportamento imprevisível, sem um padrão de repetição, que é observado nos cenários que possuem o semáforo funcionando.
 
-Assim como foi observado na sessão anterior, os gráficos das Figuras \ref{queueWithTL}, \ref{queueOneLoop} e \ref{queueTwoLoop} apresentam um padrão no comportamento em todos os caminhos, condizente com o período de abertura de cada semáforo. Os valores máximos e mínimos de cada cenário, em cada simulação, podem ser visualizados na Tabela \ref{tab: queueMinMax}.
+Assim como foi observado na sessão anterior, os gráficos das Figuras \ref{queueWithTL}, \ref{queueOneLoop} e \ref{queueTwoLoop} apresentam um padrão no comportamento em todos os caminhos, condizente com o período de abertura de cada semáforo. Os valores máximos de cada cenário, em cada simulação, podem ser visualizados na Tabela \ref{tab: queueMax}.
 
 \begin{table}[H]
 \centering
-\caption{Valores máximos e mínimos do tempo de espera em filas, em segundos}
-\label{tab: queueMinMax}
+\caption{Valores máximos do tempo de espera em filas, em segundos}
+\label{tab: queueMax}
 \begin{tabular}{@{}lllll@{}}
 \toprule
 Cenário & Caminho 1 & Caminho 2 & Caminho 3 & Caminho 4 \\ \midrule
-1 & 250 / 0 & 250 / 0 & 250 / 0 & 250 / 0 \\
-2 & 50 / 0 & 60 / 0 & 50 / 0 & 60 / 0 \\
-3 &	50 / 0 & 60 / 0 & 50 / 0 & 60 / 0 \\
-4 & 40 / 0 & 60 / 0 & 40 / 0 & 60 / 0 \\
+1 & 245 & 245 & 245 & 245 \\
+2 & 58 & 90 & 58 & 90 \\
+3 &	49 & 66 & 49 & 67 \\
+4 & 48 & 67 & 48 & 67 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -181,11 +181,11 @@ No caso da duração das viagens, nota-se, nos gráficos do primeiro cenário, q
 Já nos caminhos 2 e 4, pode-se observar que os tempos de viagem se mantêm em um intervalo mais controlado, com menor variação, apesar de não apresentar um padrão.
 
 Nos cenários 2, 3 e 4, porém, nota-se que os gráficos apresentam comportamentos semelhantes entre si, em que o tempo de viagem sofre um leve aumento, durante o período de semáforo fechado, mas volta a cair quando ocorre a abertura. Nenhum caminho, de nenhum cenário, apresentou duração de viagem superior a 100 s, demonstrando a eficácia do sistema. 
-Quando comparamos os piores casos (valores máximos) observados em cada simulação, na Tabela \ref{tab: durationMinMax}, notamos uma melhoria de até $94,3\%$ no tempo de viagem, comparando os piores valores do caminho 1 no primeiro e segundo cenários.
+Quando comparamos os piores casos (valores máximos) observados em cada simulação, na Tabela \ref{tab: durationMax}, notamos uma melhoria de até $94,1\%$ no tempo de viagem, comparando os piores valores do caminho 1 no primeiro e segundo cenários.
 
 No caso do tempo de espera em filas, o primeiro ponto a ser notado é que, no primeiro cenário, os gráficos dos caminhos 1 e 3 apresentam muito mais valores de tempo de simulação. Isso é devido à formação de trânsito, fazendo com que os veículos precisem de mais tempo para completar o percurso, com isso, o tempo necessário para completar a simulação dos caminhos 1 e 3 é $95\%$ maior que o necessário para os caminhos 2 e 4.
 Nos cenários 2, 3 e 4, observa-se um comportamento semelhante aos gráficos de duração da viagem, onde o parâmetro sofre um aumento durante o tempo de semáforo fechado, seguido por uma melhora, quando o fluxo é liberado.
-Nesses casos, quando comparamos os piores casos dos tempos de espera em filas, na Tabela \ref{tab: queueMinMax}, notamos uma redução de até $84\%$, quando usamos os piores valores do caminho 1, no primeiro e quarto cenários.
+Nesses casos, quando comparamos os piores casos dos tempos de espera em filas, na Tabela \ref{tab: queueMax}, notamos uma redução de até $80,4\%$, quando usamos os piores valores do caminho 1, no primeiro e quarto cenários.
 
 Com esses resultados, é possível notar que existe uma correlação entre os dois parâmetros observados. Âmbos apresentaram uma melhoria significativa com a implementação do sistema. A duração do percurso é limitada pelo tempo de abertura do semáforo, enquanto o tempo em filas (efetivamente o tempo que o veículo passa parado) é limitado pelo tempo em que o semáforo permanece fechado.
 
