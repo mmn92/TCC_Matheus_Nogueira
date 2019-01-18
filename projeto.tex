@@ -21,7 +21,7 @@ O processamento dos dados pode ser realizado diretamente pela CPU do controlador
 A placa de controle de acendimento semafórico tem como função assegurar o funcionamento correto do semáforo, tanto veicular quanto de pedestres, sendo responsável pelo acendimento e monitoramento dos focos, assegurando a sequência correta de cores do semáforo (Verde > Amarelo > Vermelho)\cite{CET}.
 %[http://meusite.mackenzie.br/professor_cucci/ManualSemaforos2014.pdf]. 
 
-O microcontrolador utilizado na placa é um PIC16F77, que possui 40 pinos e capacidade de processamento de 8 \textit{bits}. Um cristal é utilizado, para gerar uma velocidade de \textit{clock} de 20 MHz, e cada instrução é realizada a cada 200 ns (4 ciclos do \textit{clock}). Esse dispositivo é utilizado para chavear a tensão da rede elétrica e monitorar o acendimento semafórico, e enviar as informações para a central do controlador semafórico.
+O microcontrolador utilizado na placa é um PIC16F77, que possui 40 pinos e capacidade de processamento de 8 \textit{bits} \cite{PIC}. Um cristal é utilizado, para gerar uma velocidade de \textit{clock} de 20 MHz, e cada instrução é realizada a cada 200 ns (4 ciclos do \textit{clock}). Esse dispositivo é utilizado para chavear a tensão da rede elétrica e monitorar o acendimento semafórico, e enviar as informações para a central do controlador semafórico.
 
 O \textit{firmware} da placa foi escrito especificamente para o dispositivo utilizado realizar as funções desejadas. A placa aguarda os comandos vindos da \ac{CPU} do controlador semafórico para executar o acendimento dos focos. Os comandos são recebidos pela porta serial (\ac{USART}) do PIC16F77, através de comunicação assíncrona.
 

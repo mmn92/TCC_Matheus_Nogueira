@@ -59,13 +59,13 @@ Os processadores são a unidade central de um sistema embarcado que processa dad
 
 %[http://iris.sel.eesc.usp.br/sel433a/Micros.pdf]
 
-A Figura \ref{processor} apresenta de modo simplificado a estrutura interna de um microprocessador, onde pode-se notar os registradores, que são armazenadores de dados, e suas duas unidades básicas: a \ac{ULA}, onde ocorrem as operações lógicas e aritméticas, e a \ac{UC}, responsável pela execução das instruções. %http://iris.sel.eesc.usp.br/sel433a/Micros.pdf
+A Figura \ref{processor} apresenta de modo simplificado a estrutura interna de um microprocessador, onde pode-se notar os registradores, que são armazenadores de dados, e suas duas unidades básicas: a \ac{ULA}, onde ocorrem as operações lógicas e aritméticas, e a \ac{UC}, responsável pela execução das instruções \cite{book5}.
 Os processadores possuem parâmetros que definem o modo e a velocidade de operação dos mesmos, que serão explicados a seguir.
 
 \subsubsection{Capacidade de processamento}
 
-A capacidade de processamento, com a qual um processador consegue trabalhar, representa o número de \textit{bits} que pode ser processado por instrução, também chamado de palavra. Uma instrução é definida como uma única ação que o processador pode executar por vez %http://iris.sel.eesc.usp.br/sel433a/Micros.pdf 
-Um processador com capacidade de processamento de 4 \textit{bits}, por exemplo, consegue processar dados de até 4 \textit{bits} (equivalente a \(2^4\), ou 16) por vez. Com o avanço da tecnologia, a capacidade dos processadores foi aumentando drasticamente, sendo encontrados, hoje, nos microcontroladores no mercado, dispositivos com capacidades que variam entre 8, 16 e 32 \textit{bits} (\(2^8\) = 256; \(2^16\) = 65536; \(2^32\) = 4294967296).
+A capacidade de processamento, com a qual um processador consegue trabalhar, representa o número de \textit{bits} que pode ser processado por instrução, também chamado de palavra. Uma instrução é definida como uma única ação que o processador pode executar por vez \cite{book4}. 
+Um processador com capacidade de processamento de 4 \textit{bits}, por exemplo, consegue processar dados de até 4 \textit{bits} (equivalente a \(2^4\), ou 16) por vez. Com o avanço da tecnologia, a capacidade dos processadores foi aumentando drasticamente, sendo encontrados, hoje, nos microcontroladores no mercado, dispositivos com capacidades que variam entre 8, 16 e 32 \textit{bits} (\(2^8\) = 256; \(2^{16}\) = 65536; \(2^{32}\) = 4294967296).
 
 \subsubsection{Velocidade de \textit{Clock}}
 
@@ -144,7 +144,7 @@ Para essa tarefa existe um periférico, integrado ao microcontrolador, que receb
 R = \frac{V_{ref}}{2^n}
 \end{equation}
 
-O processo oposto também é possível, em que o dispositivo converte um sinal digital em um sinal analógico (\ac{DAC}), e alguns microcontroladores já possuem essa função integrada. O funcionamento é semelhante ao do \ac{ADC}, em que é necessária a utilização de uma voltagem de referência \(V_{ref}\), e a resolução do processo é determinada pela quantidade de \textit{bits} utilizada. Um \ac{DAC} com 8 \textit{bits} tem capacidade de geração de sinal de saída com \( 2^8 \), ou \(256\) níveis de tensão distintos.
+O processo oposto também é possível, em que o dispositivo converte um sinal digital em um sinal analógico (\ac{DAC}), e alguns microcontroladores já possuem essa função integrada. O funcionamento é semelhante ao do \ac{ADC}, em que é necessária a utilização de uma voltagem de referência \(V_{ref}\), e a resolução do processo é determinada pela quantidade de \textit{bits} utilizada. Um \ac{DAC} com 8 \textit{bits} tem capacidade de geração de sinal de saída com \( 2^8 \), ou \(256\) níveis de tensão distintos\cite{DAC}.
 
 \subsubsection{Porta serial}
 
